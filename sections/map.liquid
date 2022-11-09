@@ -1,0 +1,217 @@
+<div
+  data-section-id="{{ section.id }}"
+  data-section-type="map"
+  class="section map"
+>
+  <div class="flex flex-wrap {% render 'section-style' with outlined: section.settings.outline %}">
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="map__info-container w-100 w-third-ns ph3 pb4 pl4-ns pr3-ns">
+        {%- for block in section.blocks -%}
+          {%- case block.type -%}
+            {%- when 'heading' -%}
+              {%- if block.settings.title != blank -%}
+                <h2 class="map__info-heading type-heading-1">{{ block.settings.title | escape }}</h2>
+              {%- endif -%}
+
+            {%- when 'address' -%}
+              {%- if block.settings.address != blank -%}
+                <div class="map__info-address type-body-regular rte center measure-wide">
+                  {{ block.settings.address }}
+                </div>
+              {%- endif -%}
+
+            {%- when 'hours' -%}
+              {%- if block.settings.hours !=blank -%}
+                <div class="map__info-hours type-body-regular rte measure-wide">
+                  {{ block.settings.hours }}
+                </div>
+              {%- endif -%}
+
+            {%- when 'directions_link' -%}
+              {%- if block.settings.map_link_text != blank and section.settings.map_address != blank -%}
+                <div class="map__info-link center measure-wide">
+                  <a href="https://maps.google.com?daddr={{ section.settings.map_address | url_encode }}" class="accent-link">
+                    {{ block.settings.map_link_text }} &rarr;
+                  </a>
+                </div>
+              {%- endif -%}
+
+          {%- endcase -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    <div class="w-100{% if section.blocks.size > 0 %} w-two-thirds-ns pl3-ns{% endif %} relative">
+      {%- liquid
+        assign image_classes = 'map__image'
+        unless section.settings.api_ke == blank
+          assign image_classes =  image_classes | append: ' hidden'
+        endunless
+      -%}
+
+      <div class="{% render 'aspect-ratio-modifier' with aspect_ratio: section.settings.aspect_ratio %}">
+        {% if section.settings.image %}
+          {% render 'responsive-image',
+            image: section.settings.image,
+            image_class: 'w-100',
+            wrapper_class: image_classes,
+            max_width: 2000
+          %}
+        {% else %}
+          <div class="{{ image_classes }} map__placeholder placeholder-image">{{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}</div>
+        {% endif %}
+      </div>
+
+      {% if section.settings.api_key != blank %}
+        <div
+          class="map__container"
+          data-api-key="{{ section.settings.api_key }}"
+          data-address="{{ section.settings.map_address | url_encode }}"
+          style="height: 600px;"
+        >
+          <div class="map__element" style="height: 100%;"></div>
+        </div>
+      {% endif %}
+    </div>
+
+  </div>
+
+  <script id="map-styles-{{ section.id }}" type="application/json">
+    {
+      "styles":
+        {%- if section.settings.map_json != blank -%}
+          {{ section.settings.map_json }}
+        {% else %}
+          {}
+        {%- endif -%}
+    }
+  </script>
+</div>
+
+
+{% schema %}
+  {
+    "name": "t:sections.map.name",
+    "tag": "section",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "t:sections.map.settings.paragraph.content"
+      },
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "t:sections.map.settings.image.label",
+        "info": "t:sections.map.settings.image.info"
+      },
+      {
+        "id": "aspect_ratio",
+        "type": "select",
+        "label": "t:sections.map.settings.aspect_ratio.label",
+        "options": [
+          { "label": "t:sections.map.settings.aspect_ratio.options__1", "value": "natural" },
+          { "label": "t:sections.map.settings.aspect_ratio.options__2", "value": "square" },
+          { "label": "t:sections.map.settings.aspect_ratio.options__3", "value": "landscape" },
+          { "label": "t:sections.map.settings.aspect_ratio.options__4", "value": "portrait" }
+        ],
+        "default": "natural"
+      },
+      {
+        "type": "text",
+        "id": "map_address",
+        "label": "t:sections.map.settings.map_address.label",
+        "info": "t:sections.map.settings.map_address.info"
+      },
+      {
+        "type": "text",
+        "id": "api_key",
+        "label": "t:sections.map.settings.api_key.label",
+        "info": "t:sections.map.settings.api_key.info"
+      },
+      {
+        "type": "textarea",
+        "id": "map_json",
+        "label": "t:sections.map.settings.map_json.label",
+        "info": "t:sections.map.settings.map_json.info"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "heading",
+        "name": "t:sections.map.blocks.heading.name",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "t:sections.map.blocks.heading.settings.title.label",
+            "default": "Come visit!"
+          }
+        ]
+      },
+      {
+        "type": "address",
+        "name": "t:sections.map.blocks.address.name",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "richtext",
+            "id": "address",
+            "label": "t:sections.map.blocks.address.settings.address.label",
+            "default": "<p>Address:<br/>Our store<br/>423 Fake St.<br/>Faketown, Ontario</p>"
+          }
+        ]
+      },
+      {
+        "type": "hours",
+        "name": "t:sections.map.blocks.hours.name",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "richtext",
+            "id": "hours",
+            "label": "t:sections.map.blocks.hours.settings.hours.label",
+            "default": "<p>Hours:<br/>Mon - Fri, 10am - 7pm<br/>Saturday, 11am - 8pm<br/>Sunday, 11am - 5pm</p>"
+          }
+        ]
+      },
+      {
+        "type": "directions_link",
+        "name": "t:sections.map.blocks.directions_link.name",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "paragraph",
+            "content": "t:sections.map.blocks.directions_link.settings.paragraph.content"
+          },
+          {
+            "type": "text",
+            "id": "map_link_text",
+            "label": "t:sections.map.blocks.directions_link.settings.map_link_text.label",
+            "default": "Get Directions"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "t:sections.map.presets.name",
+        "blocks": [
+          {
+            "type": "heading"
+          },
+          {
+            "type": "address"
+          },
+          {
+            "type": "hours"
+          },
+          {
+            "type": "directions_link"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

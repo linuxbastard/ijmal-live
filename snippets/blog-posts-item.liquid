@@ -1,0 +1,58 @@
+{%- assign article = block.settings.article -%}
+
+<article class="blog-posts__article">
+  {%- if show_image != false -%}
+    {%- if article.image -%}
+      <a href="{{ article.url }}" class="{% render 'aspect-ratio-modifier' with aspect_ratio: aspect_ratio %}" aria-label="{{ article.title }}">
+        {%- render 'responsive-image' with
+          image: article.image,
+          max_width: 520,
+          max_height: 750
+        -%}
+      </a>
+    {%- else -%}
+      <div class="blog-posts__placeholder-wrapper {% render 'aspect-ratio-modifier' with aspect_ratio: aspect_ratio %}">
+        <div class="placeholder-image">
+          {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+        </div>
+      </div>
+    {%- endif -%}
+  {%- endif -%}
+
+  {%- if show_title or show_excerpt or show_date -%}
+    <div class="blog-posts__article-content">
+      <div>
+        {%- if show_title -%}
+          <h3 class="blog-posts__article-heading type-heading-2">
+            {%- if article != blank -%}
+              <a href="{{ article.url }}">{{ article.title }}</a>
+            {%- else -%}
+              <span>{{ 'homepage.onboarding.blog_title' | t }}</span>
+            {%- endif -%}
+          </h3>
+        {%- endif -%}
+
+        {%- if show_excerpt -%}
+          <div class="blog-posts__article-excerpt type-body-small">
+            {%- if article != blank -%}
+              {{ article.excerpt_or_content | strip_html | truncate: 200 }}
+            {%- else -%}
+              {{ 'homepage.onboarding.blog_excerpt' | t | truncate: 200 }}
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      {%- if show_date -%}
+        {%- capture date -%}{{ article.published_at | time_tag: format: 'month_day_year' }}{%- endcapture -%}
+        <div class="type-heading-meta meta">
+          {%- if article != blank -%}
+            {{ date }}
+          {%- else -%}
+            {{ "now" | time_tag: format: 'month_day_year' }}  
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+</article>

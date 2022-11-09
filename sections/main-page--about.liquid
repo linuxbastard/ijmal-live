@@ -1,0 +1,124 @@
+<div
+  class="about"
+  data-section-id="{{ section.id }}"
+  data-section-type="page"
+>
+  {%- if section.blocks.size > 0 -%}
+    {%- for block in section.blocks -%}
+      {%- case block.type -%}
+        {%- when 'header' -%}
+          <div class="about__heading {% if block.settings.image != blank %}about__heading--has-image{% endif %}" {{ block.shopify_attributes }}>
+            {%- if block.settings.image != blank -%}
+              <div
+                class="about__featured-wrapper lazyload"
+                data-bgset="{% render 'responsive-bg-image', image: block.settings.image %}"
+                role="img"
+                aria-label="{{ block.settings.image.alt }}"
+              >
+                <div class="about__image-overlay" {% if block.settings.text_color != blank %}style="color: {{ block.settings.text_color }}"{% endif %}>
+                  <div class="about__image-overlay-content section tc">
+                    <p class="about__breadcrumbs type-heading-meta">{{ 'general.meta.home' | t }} / {{ page.title }}</p>
+
+                    {%- if block.settings.title -%}
+                      <h1 class="about__heading type-heading-display">
+                        {{ block.settings.title }}
+                      </h1>
+                    {%- endif -%}
+
+                    {%- if block.settings.subheading -%}
+                      <h2 class="about__subheading type-body-large">
+                        {{ block.settings.subheading }}
+                      </h2>
+                    {%- endif -%}
+                  </div>
+                </div>
+
+                {% if block.settings.overlay_color != blank %}
+                  <div class="z-1 absolute absolute--fill o-{{ block.settings.overlay_opacity }}" style="background: {{ block.settings.overlay_color }};"></div>
+                {% endif %}
+              </div>
+            {%- else -%}
+
+              {% render 'page-header' with
+                title: block.settings.title,
+                subheading: block.settings.subheading
+              %}
+
+            {%- endif -%}
+          </div>
+
+        {%- when 'content' -%}
+          <div class="about__copy" {{ block.shopify_attributes }}>
+            <div class="type-body-large rte centered-content">
+              {{ page.content }}
+            </div>
+          </div>
+      {%- endcase -%}
+    {%- endfor -%}
+  {%- endif -%}
+</div>
+
+{% schema %}
+  {
+    "name": "t:sections.main_page_about.name",
+    "tag": "section",
+    "blocks": [
+      {
+        "type": "header",
+        "name": "t:sections.main_page_about.blocks.header.name",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "header",
+            "content": "t:sections.main_page_about.blocks.header.settings.content__header.content"
+          },
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "t:sections.main_page_about.blocks.header.settings.image.label"
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "t:sections.main_page_about.blocks.header.settings.title.label",
+            "default": "Our Story"
+          },
+          {
+            "type": "textarea",
+            "id": "subheading",
+            "label": "t:sections.main_page_about.blocks.header.settings.subheading.label"
+          },
+          {
+            "type": "header",
+            "content": "t:sections.main_page_about.blocks.header.settings.style__header.content"
+          },
+          {
+            "type": "range",
+            "id": "overlay_opacity",
+            "label": "t:sections.main_page_about.blocks.header.settings.overlay_opacity.label",
+            "min": 0,
+            "max": 100,
+            "step": 10,
+            "default": 30,
+            "unit": "%"
+          },
+          {
+            "type": "color",
+            "id": "overlay_color",
+            "label": "t:sections.main_page_about.blocks.header.settings.overlay_color.label"
+          },
+          {
+            "type": "color",
+            "id": "text_color",
+            "label": "t:sections.main_page_about.blocks.header.settings.text_color.label"
+          }
+        ]
+      },
+      {
+        "type": "content",
+        "name": "Content",
+        "limit": 1
+      }
+    ]
+  }
+{% endschema %}

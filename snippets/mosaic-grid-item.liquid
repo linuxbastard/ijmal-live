@@ -1,0 +1,109 @@
+{%- liquid
+  assign type = block.type
+  assign settings = block.settings
+  assign type = type | replace: "_", "-"
+  assign position = settings.text_position | split: "_"
+  assign focal_alignment = settings.focal_point | replace: "_", " "
+  assign opacity = settings.overlay_opacity | divided_by: 100.0
+-%}
+
+{%- capture text_block -%}
+  {%- if settings.title != blank or settings.subheading != blank or settings.link != blank and settings.link_text != blank -%}
+    <div
+      class="
+        mosaic-grid__text-container
+        mosaic-grid__text-container--text-align-{{ position | first }}
+        {% if settings.color_text_container != blank and settings.color_text_container != 'rgba(0,0,0,0)' %}mosaic-grid__text-container--has-background-color{% endif %}
+      "
+      style="
+        --color-text-container-background: {{ settings.color_text_container }};
+        --color-text: {{ settings.color_text }};
+        --text-max-width: {{  settings.text_max_width }}rem;
+      "
+    >
+      {%- if settings.title != blank -%}
+        <h4 class="mosaic-grid__heading type-heading-1 ma0">
+          {{ settings.title }}
+        </h4>
+      {%- endif -%}
+
+      {%- if settings.subheading != blank -%}
+        <div class="mosaic-grid__subheading type-body-regular">
+          {{ settings.subheading }}
+        </div>
+      {%- endif -%}
+
+      {%- if settings.link != blank and settings.link_text != blank -%}
+        <div class="mosaic-grid__button-wrapper">
+          {%- if settings.link_style == 'button' -%}
+            <a href="{{ settings.link }}" class="bttn {{ horizontal_position }}">{{ settings.link_text }}</a>
+          {%- else -%}
+            <a href="{{ settings.link }}" class="accent-link {{ horizontal_position }}">{{ settings.link_text }} &rarr;</a>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+{%- endcapture -%}
+
+{%- if settings.link != blank and settings.link_text == blank -%}
+  <a href="{{ settings.link }}" class="mosaic-grid__item mosaic-grid__item--{{ type }}"  aria-label="{{ 'general.accessibility.visit_link' | t: link: settings.link }}">
+{%- else -%}
+  <div class="mosaic-grid__item mosaic-grid__item--{{ type }}">
+{%- endif -%}
+
+  <div
+    class="
+      mosaic-grid__item-inner
+      mosaic-grid__item-inner--h-align-{{ position[0] }}
+      mosaic-grid__item-inner--v-align-{{ position[1] }}
+    "
+    style="
+      --media-focal-alignment: {{ focal_alignment }};
+      --media-fit: {{ settings.media_fit }};
+      --color-background: {{ settings.background_color }};
+    "
+    {{ block.shopify_attributes }}
+  >
+    {%- if settings.image != blank -%}
+      {% render 'responsive-image' with
+        image: settings.image,
+        wrapper_class: 'mosaic-grid__item-image',
+        max_width: 2000
+      %}
+    {%- endif -%}
+
+    {%- if settings.video_url != blank -%}
+      <video class="mosaic-grid__item-video image" autoplay playsinline loop muted src="{{ settings.video_url }}"></video>
+      {%- render 'video-pause' -%}
+    {% endif %}
+
+    {%- if settings.image == blank and settings.video_url == blank -%}
+      {%- if settings.background_color == blank or settings.background_color == 'rgba(0,0,0,0)' -%}
+        <div class="mosaic-grid__item-image placeholder-image">
+          {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+        </div>
+      {%- endif -%}
+    {%- endif -%}
+
+    {%- if settings.text != blank -%}
+      <video class="mosaic-grid__item-video image" autoplay playsinline loop muted src="{{ settings.video_url }}"></video>
+      {%- render 'video-pause' -%}
+    {% endif %}
+
+    <div
+      class="mosaic-grid__item-fill"
+      style="--color-overlay-color: {{ settings.overlay_color | color_modify: 'alpha', opacity }};"
+      >
+    </div>
+
+    {{ text_block }}
+  </div>
+
+{%- if settings.link != blank and settings.link_text == blank -%}
+  </a>
+{%- else -%}
+  </div>
+{%- endif -%}
+
+{{ text_block }}

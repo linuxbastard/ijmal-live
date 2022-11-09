@@ -1,0 +1,180 @@
+{%- liquid
+  assign icon_width = section.settings.icon_width
+  assign has_images = false
+  assign all_blocks_have_images = false
+  assign image_count = 0
+
+  for block in section.blocks
+    if block.settings.icon != blank
+      assign image_count = image_count | plus: 1
+      assign has_images = true
+    endif
+  endfor
+
+  if image_count == section.blocks.size
+    assign all_blocks_have_images = true
+  endif
+-%}
+
+<div
+  data-section-id="{{ section.id }}"
+  data-section-type="quotes"
+  data-autoplay="{{ section.settings.duration_autoplay | times: 1000 }}"
+  class="
+    quotes section
+    quotes--image-shape-{{ section.settings.image_shape }}
+    {% if all_blocks_have_images %}
+      quotes--all-blocks-have-images
+    {% endif %}
+    {% if section.blocks.size <= 1 %}quotes--single{% endif %}
+    fade
+  "
+  style="--quote-image-size: {{ icon_width }}px"
+>
+  <div class="{% render 'section-style' with outlined: section.settings.outline %}">
+    <div class="quotes__quote-mark">
+      {% render 'icon-quote' %}
+    </div>
+    <div class="js-fq quotes__container">
+      {%- for block in section.blocks -%}
+        <div
+          class="quotes__slide fade-cell ph3 tc"
+          {% if block.settings.icon != blank %}
+            data-image="{{ block.settings.icon | img_url: '200x' }}"
+          {% endif %}
+          data-index="{{ forloop.index0 }}"
+          {{ block.shopify_attributes }}
+        >
+          <div class="type-heading-1 mw8 center mt3 rte">{{ block.settings.quote }}</div>
+          {%- if block.settings.author != blank -%}
+            <p class="type-body-regular">{{ block.settings.author }}</p>
+          {%- endif -%}
+
+          {%- if block.settings.icon != blank -%}
+            <img
+              class="quotes__icon active"
+              src="{{ block.settings.icon | img_url: '300x' }}"
+              alt="{{ block.settings.icon.alt }}"
+            />
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+
+    <div class="quotes__pagination">
+      {%- if all_blocks_have_images -%}
+        {%- for block in section.blocks -%}
+          {%- if block.settings.icon != blank -%}
+            <button
+              type="button"
+              class="quotes__button button-blank"
+              data-pagination
+              aria-label="{{ 'general.accessibility.carousel_select' | t: number: forloop.index }}"
+            >
+              <img
+                class="quotes__button quotes__icon {% if forloop.index0 == 0 %}active{% endif %}"
+                data-index="{{ forloop.index0 }}"
+                src="{{ block.settings.icon | img_url: '300x' }}"
+                alt="{{ block.settings.icon.alt }}"
+              />
+            </button>
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endif -%}
+
+      {% if section.blocks.size > 1 %}
+        {%- render 'navigation-dots' with dot_count: section.blocks.size  -%}
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+
+{% schema %}
+  {
+    "name": "t:sections.quotes.name",
+    "tag": "section",
+    "settings": [
+      {
+        "type": "header",
+        "content": "t:sections.quotes.settings.image__header.content"
+      },
+      {
+        "type": "range",
+        "id": "duration_autoplay",
+        "label": "t:sections.quotes.settings.duration_autoplay.label",
+        "unit": "s",
+        "min": 2,
+        "max": 10,
+        "step": 0.5,
+        "default": 3.5
+      },
+      {
+        "type": "range",
+        "id": "icon_width",
+        "label": "t:sections.quotes.settings.icon_width.label",
+        "min": 40,
+        "max": 150,
+        "step": 5,
+        "default": 40,
+        "unit": "px"
+      },
+      {
+        "id": "image_shape",
+        "type": "radio",
+        "label": "t:sections.quotes.settings.image_shape.label",
+        "default": "round",
+        "options": [
+          { "value": "round", "label": "t:sections.quotes.settings.image_shape.options__1" },
+          { "value": "square", "label": "t:sections.quotes.settings.image_shape.options__2" },
+          { "value": "natural", "label": "t:sections.quotes.settings.image_shape.options__3" }
+        ]
+      },
+      {
+        "type": "header",
+        "content": "t:sections.quotes.settings.style__header.content"
+      },
+      {
+        "type": "checkbox",
+        "id": "outline",
+        "label": "t:sections.quotes.settings.outline.label",
+        "default": false
+      }
+    ],
+    "blocks": [
+      {
+        "type": "quote",
+        "name": "t:sections.quotes.blocks.quote.name",
+        "settings": [
+          {
+            "type": "richtext",
+            "id": "quote",
+            "label": "t:sections.quotes.blocks.quote.settings.quote.label",
+            "default": "<p>Absolutely unparalleled products and service. I'm confident that this store will be the next big thing in its industry, and that its products will be timeless.</p>"
+          },
+          {
+            "type": "text",
+            "id": "author",
+            "label": "t:sections.quotes.blocks.quote.settings.author.label",
+            "default": "Steve Jordans"
+          },
+          {
+            "type": "image_picker",
+            "id": "icon",
+            "label": "t:sections.quotes.blocks.quote.settings.icon.label"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "t:sections.quotes.presets.name",
+        "blocks": [
+          {
+            "type": "quote"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

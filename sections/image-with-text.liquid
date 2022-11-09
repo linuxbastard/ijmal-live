@@ -1,0 +1,277 @@
+{% liquid
+  assign focal_alignment = section.settings.focal_point | replace: "_", " "
+%}
+
+<div
+  class="
+    image-with-text
+    image-with-text--image-{{ section.settings.image_position }}
+    image-with-text--{{ section.settings.aspect_ratio }}
+    image-with-text--image-{{ section.settings.image_width }}
+    image-with-text--align-{{ section.settings.text_alignment }}
+    image-with-text--position-{{ section.settings.text_position }}
+    section
+  "
+  data-section-id="{{ section.id }}"
+  data-section-type="image-with-text"
+  style="--media-focal-point: {{ focal_alignment }};"
+>
+  <div class="image-with-text__inner{% unless section.settings.remove_container %} section--standard{% endunless %}">
+    <div class="image-with-text__image-container">
+      {%- if section.settings.image -%}
+          <div class="image-with-text__image-container-inner">
+            <div class="image-with-text__image{% render 'aspect-ratio-modifier' with aspect_ratio: section.settings.aspect_ratio %}">
+              {% render 'responsive-image' with
+                image: section.settings.image,
+                max_width: 800,
+                max_height: 800
+              %}
+            </div>
+          </div>
+      {%- else -%}
+        <div class="image-with-text__image-container-inner">
+          <div class="image-with-text__image placeholder-image{% render 'aspect-ratio-modifier' with aspect_ratio: section.settings.aspect_ratio %}">
+            {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="image-with-text__text-container">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'heading' -%}
+            {%- unless block.settings.title == blank -%}
+              <h2
+                class="image-with-text__heading type-heading-1 ma0"
+                style="--text-max-width: {{  block.settings.text_max_width }}rem;"
+              >
+                {{ block.settings.title | newline_to_br }}
+              </h2>
+            {%- endunless -%}
+
+          {%- when 'text' -%}
+            {%- unless block.settings.text == blank -%}
+              <div
+                class="image-with-text__text type-body-regular"
+                style="--text-max-width: {{  block.settings.text_max_width }}rem;"
+              >
+                {{ block.settings.text }}
+              </div>
+            {%- endunless -%}
+
+          {%- when 'button' -%}
+            {%- if block.settings.link != blank and block.settings.link_text != blank -%}
+              {%- if block.settings.link_style == 'button' -%}
+                <a href="{{ block.settings.link }}" class="image-with-text__button bttn">{{ block.settings.link_text }}</a>
+              {%- else -%}
+                <a href="{{ block.settings.link }}" class="image-with-text__button accent-link">{{ block.settings.link_text }} &rarr;</a>
+              {%- endif -%}
+            {%- endif -%}
+
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "t:sections.image_with_text.name",
+    "tag": "section",
+    "settings": [
+      {
+        "id": "image",
+        "type": "image_picker",
+        "label": "t:sections.image_with_text.settings.image_1.label"
+      },
+      {
+        "type": "select",
+        "id": "image_position",
+        "label": "t:sections.image_with_text.settings.image_position.label",
+        "default": "right",
+        "options": [
+          {
+            "value": "left",
+            "label": "t:sections.image_with_text.settings.image_position.options__1"
+          },
+          {
+            "value": "right",
+            "label": "t:sections.image_with_text.settings.image_position.options__2"
+          }
+        ]
+      },
+      {
+        "id": "image_width",
+        "type": "select",
+        "label": "t:sections.image_with_text.settings.image_width.label",
+        "options": [
+          { "label": "t:sections.image_with_text.settings.image_width.options__1", "value": "half" },
+          { "label": "t:sections.image_with_text.settings.image_width.options__2", "value": "two-thirds" }
+        ],
+        "default": "two-thirds"
+      },
+      {
+        "id": "aspect_ratio",
+        "type": "select",
+        "label": "t:sections.image_with_text.settings.aspect_ratio.label",
+        "options": [
+          { "label": "t:sections.image_with_text.settings.aspect_ratio.options__1", "value": "natural" },
+          { "label": "t:sections.image_with_text.settings.aspect_ratio.options__2", "value": "square" },
+          { "label": "t:sections.image_with_text.settings.aspect_ratio.options__3", "value": "landscape" },
+          { "label": "t:sections.image_with_text.settings.aspect_ratio.options__4", "value": "portrait" }
+        ],
+        "default": "natural"
+      },
+      {
+        "id": "focal_point",
+        "type": "select",
+        "label": "t:sections.image_with_text.settings.focal_point.label",
+        "options": [
+          { "label": "t:sections.image_with_text.settings.focal_point.options__1", "value": "left_top" },
+          { "label": "t:sections.image_with_text.settings.focal_point.options__2", "value": "center_top" },
+          { "label": "t:sections.image_with_text.settings.focal_point.options__3", "value": "right_top" },
+          { "label": "t:sections.image_with_text.settings.focal_point.options__4", "value": "left_center" },
+          { "label": "t:sections.image_with_text.settings.focal_point.options__5", "value": "center_center" },
+          { "label": "t:sections.image_with_text.settings.focal_point.options__6", "value": "right_center" },
+          { "label": "t:sections.image_with_text.settings.focal_point.options__7", "value": "left_bottom" },
+          { "label": "t:sections.image_with_text.settings.focal_point.options__8", "value": "center_bottom" },
+          { "label": "t:sections.image_with_text.settings.focal_point.options__9", "value": "right_bottom" }
+        ],
+        "default": "center_center"
+      },
+      {
+        "type": "select",
+        "id": "text_alignment",
+        "label": "t:sections.image_with_text.settings.text_alignment.label",
+        "default": "left",
+        "options": [
+          {
+            "value": "left",
+            "label": "t:sections.image_with_text.settings.text_alignment.options__1"
+          },
+          {
+            "value": "center",
+            "label": "t:sections.image_with_text.settings.text_alignment.options__2"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "text_position",
+        "label": "t:sections.image_with_text.settings.text_position.label",
+        "default": "center",
+        "options": [
+          {
+            "value": "top",
+            "label": "t:sections.image_with_text.settings.text_position.options__1"
+          },
+          {
+            "value": "center",
+            "label": "t:sections.image_with_text.settings.text_position.options__2"
+          },
+          {
+            "value": "bottom",
+            "label": "t:sections.image_with_text.settings.text_position.options__3"
+          }
+        ]
+      },
+      {
+        "type": "header",
+        "content": "t:sections.image_with_text.settings.style__header.content"
+      },
+      {
+        "type": "checkbox",
+        "id": "remove_container",
+        "label": "t:sections.image_with_text.settings.remove_container.label",
+        "default": false
+      }
+    ],
+    "blocks": [
+      {
+        "type": "heading",
+        "name": "t:sections.image_with_text.blocks.heading.name",
+        "limit": 1,
+        "settings": [
+          {
+            "id": "title",
+            "type": "text",
+            "label": "t:sections.image_with_text.blocks.heading.settings.title.label",
+            "default": "Image with text"
+          },
+          {
+            "type": "range",
+            "id": "text_max_width",
+            "label": "t:sections.image_with_text.blocks.heading.settings.text_max_width.label",
+            "min": 24,
+            "max": 48,
+            "step": 1,
+            "default": 32
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "name": "t:sections.image_with_text.blocks.text.name",
+        "limit": 1,
+        "settings": [
+          {
+            "id": "text",
+            "type": "richtext",
+            "label": "t:sections.image_with_text.blocks.text.settings.text.label",
+            "default": "<p>Use these sections to promote a particular feature with editorial photography.</p>"
+          },
+          {
+            "type": "range",
+            "id": "text_max_width",
+            "label": "t:sections.image_with_text.blocks.text.settings.text_max_width.label",
+            "min": 24,
+            "max": 48,
+            "step": 1,
+            "default": 32
+          }
+        ]
+      },
+      {
+        "type": "button",
+        "name": "t:sections.image_with_text.blocks.button.name",
+        "limit": 1,
+        "settings": [
+          {
+            "id": "link",
+            "type": "url",
+            "label": "t:sections.image_with_text.blocks.button.settings.link.label"
+          },
+          {
+            "id": "link_text",
+            "type": "text",
+            "label": "t:sections.image_with_text.blocks.button.settings.link_text.label",
+            "default": "Read more"
+          },
+          {
+            "type": "select",
+            "id": "link_style",
+            "label": "t:sections.image_with_text.blocks.button.settings.link_style.label",
+            "options": [
+              { "value": "button", "label": "Button" },
+              { "value": "arrow_link", "label": "Link with arrow" }
+            ]
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "t:sections.image_with_text.presets.name",
+        "blocks": [
+          {
+            "type": "heading"
+          },
+          {
+            "type": "text"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,203 @@
+<div
+  data-section-id="{{ section.id }}"
+  data-section-type="video"
+  class="section"
+>
+  <div class="video">
+
+    {%- for block in section.blocks -%}
+      {%- case block.type -%}
+        {%- when 'heading' -%}
+          <h2
+            class="tc video__heading type-heading-1"
+            style="--text-max-width: {{ block.settings.text_max_width }}rem;"
+          >
+            {{ block.settings.title }}
+          </h2>
+
+        {%- when 'subheading' -%}
+          <div
+            class="tc type-body-regular video__subheading rte"
+            style="--text-max-width: {{ block.settings.text_max_width }}rem;"
+          >
+            {{ block.settings.subheading }}
+          </div>
+
+        {%- when 'video' -%}
+          {%- liquid
+            assign overlay_has_content = false
+
+            if block.settings.image != blank
+              assign overlay_has_content = true
+            elsif block.settings.overlay_color != blank and block.settings.overlay_color != 'rgba(0,0,0,0)'
+              if block.settings.overlay_opacity == 100
+                assign overlay_has_content = true
+              endif
+            endif
+          -%}
+          <div class="video__video-container{% if overlay_has_content %} video__video-container--has-overlay-content{% endif %}">
+            <div
+              class="video__wrapper"
+              data-video-type="{{ block.settings.video_url.type }}"
+              data-video-id="{{ block.settings.video_url.id }}"
+            >
+              <div class="video__overlay visible">
+                <div class="z-5 absolute absolute--fill flex justify-around items-center">
+                  {%- if block.settings.video_url != blank -%}
+                    <button type="button" class="video__play-button" data-video-trigger aria-label="{{ 'general.accessibility.play_video' | t }}">
+                      {% render 'icon-play' %}
+                    </button>
+                  {%- endif -%}
+                </div>
+
+                {% if block.settings.image != blank %}
+                  {% render 'responsive-image' with
+                    image: block.settings.image,
+                    wrapper_class: "video__image"
+                    max_width: 1000,
+                  %}
+                {% endif %}
+                <div class="video__wash absolute absolute--fill o-{{ block.settings.overlay_opacity }}" style="background: {{ block.settings.overlay_color }};"></div>
+                {% if block.settings.meta != blank %}
+                  <div class="video__meta-text" style="color: {{ block.settings.text_color }}">{{ block.settings.meta }}</div>
+                {% endif %}
+              </div>
+
+              {% if block.settings.video_url != blank %}
+                <div class="video__container video__container--{{ section.id }}">
+                  <div class="video__player video__player--{{ section.id }}"></div>
+                </div>
+              {% else %}
+                <div class="video__placeholder">
+                  <div class="video__placeholder-image">
+                    {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+                  </div>
+                </div>
+              {% endif %}
+            </div>
+          </div>
+
+      {%- endcase -%}
+    {%- endfor -%}
+
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "t:sections.video.name",
+    "tag": "section",
+    "settings": [
+    ],
+    "blocks": [
+      {
+        "type": "heading",
+        "name": "t:sections.video.blocks.heading.name",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "t:sections.video.blocks.heading.settings.title.label",
+            "default": "Featured video"
+          },
+          {
+            "type": "range",
+            "id": "text_max_width",
+            "label": "t:sections.video.blocks.heading.settings.text_max_width.label",
+            "min": 24,
+            "max": 48,
+            "step": 1,
+            "default": 42
+          }
+        ]
+      },
+      {
+        "type": "subheading",
+        "name": "t:sections.video.blocks.subheading.name",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "richtext",
+            "id": "subheading",
+            "label": "t:sections.video.blocks.subheading.settings.subheading.label",
+            "default": "<p>Use this section for interviews, product promotions, demo reels, and more.</p>"
+          },
+          {
+            "type": "range",
+            "id": "text_max_width",
+            "label": "t:sections.video.blocks.subheading.settings.text_max_width.label",
+            "min": 24,
+            "max": 48,
+            "step": 1,
+            "default": 42
+          }
+        ]
+      },
+      {
+        "type": "video",
+        "name": "t:sections.video.blocks.video.name",
+        "limit": 1,
+        "settings": [
+          {
+            "id": "video_url",
+            "type": "video_url",
+            "label": "t:sections.video.blocks.video.settings.video_url.label",
+            "accept": ["youtube", "vimeo"],
+            "default": "https://www.youtube.com/watch?v=_9VUPq3SxOc"
+          },
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "t:sections.video.blocks.video.settings.image.label"
+          },
+          {
+            "type": "text",
+            "id": "meta",
+            "label": "t:sections.video.blocks.video.settings.meta.label"
+          },
+          {
+            "type": "header",
+            "content": "t:sections.video.blocks.video.settings.overlay__header.content"
+          },
+          {
+            "type": "range",
+            "id": "overlay_opacity",
+            "min": 0,
+            "max": 100,
+            "step": 10,
+            "default": 20,
+            "label": "t:sections.video.blocks.video.settings.overlay_opacity.label"
+          },
+          {
+            "type": "color",
+            "id": "overlay_color",
+            "label": "t:sections.video.blocks.video.settings.overlay_color.label"
+          },
+          {
+            "type": "color",
+            "id": "text_color",
+            "label": "t:sections.video.blocks.video.settings.text_color.label",
+            "default": "#000"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Video",
+        "blocks": [
+          {
+            "type": "heading"
+          },
+          {
+            "type": "subheading"
+          },
+          {
+            "type": "video"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

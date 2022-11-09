@@ -1,0 +1,163 @@
+<div
+  data-section-id="{{ section.id }}"
+  data-section-type="featured-collection"
+  class="section"
+>
+  {% assign alignment = section.settings.heading_alignment %}
+  <div class="featured-collection featured-collection--{{ alignment }} {% render 'section-style' with outlined: section.settings.outline %}">
+
+    {%- assign collection = collections[section.settings.collection] -%}
+
+    <div class="featured-collection__details">
+      {% if section.settings.title != blank %}
+        <h2 class="type-heading-1 measure-narrow">{{ section.settings.title }}</h2>
+      {% endif %}
+
+      {% if section.settings.collection_subheading != blank %}
+        <div class="type-body-regular featured-collection__subheading rte">{{ section.settings.collection_subheading }}</div>
+      {% endif %}
+
+      {% if section.settings.link_text != blank %}
+        <a href="{{ collection.url }}" class="accent-link">{{ section.settings.link_text }} &rarr;</a>
+      {% endif %}
+    </div>
+
+    {%- assign max_products = section.settings.products_per_row | times: section.settings.rows -%}
+
+    <div class="featured-collection__content" data-slider>
+
+      {% for product in collection.products limit: max_products %}
+        <div class="featured-collection__item featured-collection__item--{{ section.settings.products_per_row }}{% render 'aspect-ratio-modifier' with aspect_ratio: section.settings.aspect_ratio %}">
+          {% render 'product-tile' with product: product %}
+        </div>
+      {% else %}
+
+        {% for i in (1..max_products) %}
+          <div class="featured-collection__item featured-collection__item--{{ section.settings.products_per_row }}{% render 'aspect-ratio-modifier' with aspect_ratio: section.settings.aspect_ratio %}">
+            <div class="w-100">
+              {% capture current %}{% cycle 1, 2, 3, 4, 5, 6 %}{% endcapture %}
+                <div class="placeholder-image">
+                  {{ 'product-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+                </div>
+
+              <h2 class="type-body-regular mt3 mb0">
+                {{ 'homepage.onboarding.product_title' | t }}
+              </h2>
+              <p class="type-body-regular meta ma0">{{ 1999 | money }}</p>
+            </div>
+          </div>
+        {% endfor %}
+      {% endfor %}
+
+    </div>
+
+    {%- liquid
+      assign product_count = collection.products.size
+      if product_count > max_products or collection == blank
+        assign product_count = max_products
+      endif
+    -%}
+
+    {% if product_count > 1 %}
+      <div class="featured-collection__navigation">
+        {%- render 'navigation-dots' with dot_count: product_count  -%}
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "t:sections.featured_collection.name",
+    "tag": "section",
+    "templates": ["404", "article", "blog", "cart", "collection", "list-collections", "customers/account", "customers/activate_account", "customers/addresses", "customers/login", "customers/order", "customers/register", "customers/reset_password", "gift_card", "index", "page", "product", "search"],
+    "settings": [
+      {
+        "id": "collection",
+        "type": "collection",
+        "label": "t:sections.featured_collection.settings.collection.label"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "t:sections.featured_collection.settings.title.label",
+        "default": "Featured collection"
+      },
+      {
+        "type": "richtext",
+        "id": "collection_subheading",
+        "label": "t:sections.featured_collection.settings.collection_subheading.label",
+        "default": "<p>Add a subheading to provide more details about this collection.</p>"
+      },
+      {
+        "type": "text",
+        "id": "link_text",
+        "label": "t:sections.featured_collection.settings.link_text.label"
+      },
+      {
+        "type": "select",
+        "id": "heading_alignment",
+        "label": "t:sections.featured_collection.settings.heading_alignment.label",
+        "options": [
+          {
+            "value": "left",
+            "label": "t:sections.featured_collection.settings.heading_alignment.options__1"
+          },
+          {
+            "value": "center",
+            "label": "t:sections.featured_collection.settings.heading_alignment.options__2"
+          },
+          {
+            "value": "right",
+            "label": "t:sections.featured_collection.settings.heading_alignment.options__3"
+          }
+        ]
+      },
+      {
+        "type": "range",
+        "id": "products_per_row",
+        "label": "t:sections.featured_collection.settings.products_per_row.label",
+        "min": 2,
+        "max": 4,
+        "step": 1,
+        "default": 3
+      },
+      {
+        "type": "range",
+        "id": "rows",
+        "label": "t:sections.featured_collection.settings.rows.label",
+        "min": 1,
+        "max": 4,
+        "step": 1,
+        "default": 1
+      },
+      {
+        "id": "aspect_ratio",
+        "type": "select",
+        "label": "t:sections.featured_collection.settings.aspect_ratio.label",
+        "options": [
+          { "label": "t:sections.featured_collection.settings.aspect_ratio.options__1", "value": "natural" },
+          { "label": "t:sections.featured_collection.settings.aspect_ratio.options__2", "value": "square" },
+          { "label": "t:sections.featured_collection.settings.aspect_ratio.options__3", "value": "landscape" },
+          { "label": "t:sections.featured_collection.settings.aspect_ratio.options__4", "value": "portrait" }
+        ],
+        "default": "square"
+      },
+      {
+        "type": "header",
+        "content": "t:sections.featured_collection.settings.style__header.content"
+      },
+      {
+        "type": "checkbox",
+        "id": "outline",
+        "label": "t:sections.featured_collection.settings.outline.label",
+        "default": false
+      }
+    ],
+    "presets": [
+      {
+        "name": "t:sections.featured_collection.presets.name"
+      }
+    ]
+  }
+{% endschema %}

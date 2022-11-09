@@ -1,0 +1,70 @@
+<section class="section account">
+
+  <div class="account__auth-wrapper contrast">
+
+    <h1 class="account__auth-wrapper-heading type-heading-display">{{ 'customer.register.title' | t }}</h1>
+
+    {% form 'create_customer' %}
+      {{ form.errors | default_errors }}
+
+      <label for="FirstName" class="label-hidden">
+        {{ 'customer.register.first_name' | t }}
+      </label>
+      <input
+        type="text"
+        name="customer[first_name]"
+        id="FirstName"
+        class="input"
+        placeholder="{{ 'customer.register.first_name' | t }}"
+        autofocus
+        {% if form.first_name %}value="{{ form.first_name }}"{% endif %}
+      >
+
+      <label for="LastName" class="label-hidden">
+        {{ 'customer.register.last_name' | t }}
+      </label>
+      <input
+        type="text"
+        name="customer[last_name]"
+        id="LastName"
+        class="input"
+        placeholder="{{ 'customer.register.last_name' | t }}"
+        {% if form.last_name %}value="{{ form.last_name }}"{% endif %}
+      >
+
+      <label for="Email" class="label-hidden">
+        {{ 'customer.register.email' | t }}
+      </label>
+      <input
+        type="email"
+        name="customer[email]"
+        id="Email"
+        class="input {% if form.errors contains 'email' %}input-error{% endif %}"
+        placeholder="{{ 'customer.register.email' | t }}"
+        value="{% if form.email %}{{ form.email }}{% endif %}"
+        spellcheck="false"
+        autocomplete="off"
+        autocapitalize="off"
+      >
+
+      <label for="CreatePassword" class="label-hidden">
+        {{ 'customer.register.password' | t }}
+      </label>
+      <input
+        type="password"
+        name="customer[password]"
+        id="CreatePassword"
+        class="input {% if form.errors contains 'password' %}input-error{% endif %}"
+        placeholder="{{ 'customer.register.password' | t }}"
+      >
+
+      <input type="submit" value="{{ 'customer.register.submit' | t }}" class="bttn bttn--full mb3">
+
+      <div class="login__links">
+        <a class="underline" href="{{ shop.url }}">{{ 'customer.register.cancel' | t }}</a>
+      </div>
+    {% endform %}
+
+  </div>
+
+</section>

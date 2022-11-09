@@ -1,0 +1,93 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "price": {
+          "type": "price",
+          "settings": {
+          }
+        },
+        "title": {
+          "type": "title",
+          "settings": {
+          }
+        },
+        "border": {
+          "type": "border",
+          "settings": {
+          }
+        },
+        "quantity_selector": {
+          "type": "quantity_selector",
+          "settings": {
+          }
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "show_swatches": true,
+            "variant_popup_option": "Size",
+            "variant_popup_text": "Size guide",
+            "variant_popup_page": ""
+          }
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true,
+            "show_dynamic_policies": true
+          }
+        },
+        "description": {
+          "type": "description",
+          "settings": {
+          }
+        },
+        "share": {
+          "type": "share",
+          "settings": {
+          }
+        }
+      },
+      "block_order": [
+        "price",
+        "title",
+        "border",
+        "quantity_selector",
+        "variant_picker",
+        "buy_buttons",
+        "description",
+        "share"
+      ],
+      "settings": {
+        "enable_video_looping": true
+      }
+    },
+    "main_product_image_grid": {
+      "type": "main-product-image-grid",
+      "disabled": true,
+      "settings": {
+        "skip_first_image": true,
+        "image_amount": 4,
+        "aspect_ratio": "square"
+      }
+    },
+    "product_recommendations": {
+      "type": "product-recommendations",
+      "settings": {
+        "title": "Recommended",
+        "alignment": "left",
+        "rows": 1,
+        "per_row": 3,
+        "aspect_ratio": "square",
+        "outline": false
+      }
+    }
+  },
+  "order": [
+    "main",
+    "main_product_image_grid",
+    "product_recommendations"
+  ]
+}

@@ -1,0 +1,36 @@
+<div class="section">
+
+  {%- unless section.settings.title == blank -%}
+    <h2 class="type-heading-1">{{ section.settings.title | escape }}</h2>
+  {%- endunless -%}
+
+  {%- unless section.settings.custom_liquid == blank -%}
+    <div class="custom-liquid">{{ section.settings.custom_liquid }}</div>
+  {%- endunless -%}
+
+</div>
+
+{% schema %}
+  {
+    "name": "t:sections.custom_liquid.name",
+    "tag": "section",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "t:sections.custom_liquid.settings.title.label"
+      },
+      {
+        "type": "liquid",
+        "id": "custom_liquid",
+        "label": "t:sections.custom_liquid.settings.custom_liquid.label",
+        "default": "<p>Write or paste your Liquid code here</p>"
+      }
+    ],
+    "presets": [
+      {
+        "name": "t:sections.custom_liquid.presets.name"
+      }
+    ]
+  }
+{% endschema %}

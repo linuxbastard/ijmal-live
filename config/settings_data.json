@@ -1,0 +1,555 @@
+{
+  "current": {
+    "color_text": "#363636",
+    "color_bg": "#ffffff",
+    "color_border": "#e2e2e2",
+    "color_input": "#ffffff",
+    "color_input_text": "#3a3a3a",
+    "color_accent": "#29344d",
+    "color_button_text": "#ffffff",
+    "color_secondary_button": "#f7f7f7",
+    "color_secondary_button_text": "#494949",
+    "color_sale_badge": "#b6534c",
+    "color_success_message": "#82b875",
+    "color_error_message": "#b6534c",
+    "color_header_text": "#363636",
+    "color_header_bg": "#ffffff",
+    "color_header_border": "#e2e2e2",
+    "color_header_icon": "#9a9a9a",
+    "color_contrast_text": "#363636",
+    "color_contrast_bg": "#f9f9f9",
+    "color_contrast_border": "#e2e2e2",
+    "color_contrast_input": "#ffffff",
+    "color_contrast_input_text": "#7c7c7c",
+    "color_navigation_text": "#ffffff",
+    "color_navigation_bg": "#1b4142",
+    "color_navigation_border": "#285556",
+    "color_navigation_feature": "#244960",
+    "color_drawer_text": "#ffffff",
+    "color_drawer_bg": "#1b4142",
+    "color_drawer_border": "#285556",
+    "color_footer_text": "#363636",
+    "color_footer_bg": "#f9f9f9",
+    "color_footer_border": "#e2e2e2",
+    "color_footer_input": "#ffffff",
+    "color_footer_input_text": "#757575",
+    "font_heading": "montserrat_n8",
+    "size_heading": 16,
+    "uppercase_headings": false,
+    "font_body": "assistant_n4",
+    "size_body": 16,
+    "font_logo": "electra_n7",
+    "font_logo_size": 32,
+    "share_facebook": true,
+    "share_twitter": true,
+    "share_pinterest": true,
+    "social_facebook_link": "",
+    "social_instagram_link": "",
+    "social_pinterest_link": "",
+    "social_snapchat_link": "",
+    "social_tumblr_link": "",
+    "social_twitter_link": "",
+    "social_vimeo_link": "",
+    "social_youtube_link": "",
+    "cart_notes_enable": true,
+    "favicon": "shopify:\/\/shop_images\/ijmal-favicon.png",
+    "checkout_header_image": "",
+    "checkout_logo_image": "",
+    "checkout_logo_position": "left",
+    "checkout_logo_size": "medium",
+    "checkout_body_background_image": "",
+    "checkout_body_background_color": "#ffffff",
+    "checkout_input_background_color_mode": "white",
+    "checkout_sidebar_background_image": "",
+    "checkout_sidebar_background_color": "#fafafa",
+    "checkout_heading_font": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'",
+    "checkout_body_font": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'",
+    "checkout_accent_color": "#197bbd",
+    "checkout_button_color": "#197bbd",
+    "checkout_error_color": "#e32c2b",
+    "share_image": "",
+    "currency_format": "money_with_currency_format",
+    "quick_cart_note": "Your subtotal today is [subtotal]. Shipping and taxes will calculated at checkout.",
+    "sections": {
+      "footer": {
+        "type": "footer",
+        "blocks": {
+          "footer-0": {
+            "type": "text",
+            "settings": {
+              "title": "About the shop",
+              "text": "<p>Use this text area to tell your customers about your brand and vision. You can change it in the theme settings.<\/p>"
+            }
+          },
+          "footer-1": {
+            "type": "link_list",
+            "settings": {
+              "menu": "main-menu"
+            }
+          },
+          "footer-2": {
+            "type": "link_list",
+            "settings": {
+              "menu": "footer"
+            }
+          }
+        },
+        "block_order": [
+          "footer-0",
+          "footer-1",
+          "footer-2"
+        ],
+        "settings": {
+          "show_newsletter_signup": true,
+          "show_payment_icons": true,
+          "show_locale_selector": true,
+          "show_currency_selector": true
+        }
+      },
+      "header": {
+        "type": "header",
+        "blocks": {
+          "1cb0deed-3de3-4838-84dc-6b583cb35d29": {
+            "type": "mega_nav",
+            "settings": {
+              "dropdown_parent_link": "Shop",
+              "mega_nav_featured_image": "shopify:\/\/shop_images\/COMPILE-USP-06-scaled.jpg",
+              "featured_image_heading": "New Arrivals",
+              "featured_image_link_text": "Shop Now",
+              "featured_image_link": "shopify:\/\/collections\/all"
+            }
+          }
+        },
+        "block_order": [
+          "1cb0deed-3de3-4838-84dc-6b583cb35d29"
+        ],
+        "settings": {
+          "header_style": "inline",
+          "header_alignment": "left",
+          "menu": "main-menu",
+          "logo": "shopify:\/\/shop_images\/logo-min_aa95790d-5cac-46ed-92d4-012a04f8e889.png",
+          "logo_max_width": 120,
+          "sticky_header_logo": "shopify:\/\/shop_images\/logo-min_aa95790d-5cac-46ed-92d4-012a04f8e889.png",
+          "transparent_index_header_enabled": false,
+          "transparent_about_header_enabled": false,
+          "transparent_header_foreground_color": "#ffffff",
+          "transparent_header_border_color": "#ffffff",
+          "transparent_header_border_opacity": 10
+        }
+      },
+      "announcement-bar": {
+        "type": "announcement-bar",
+        "blocks": {
+          "announcement-bar-0": {
+            "type": "announcement",
+            "disabled": true,
+            "settings": {
+              "background_color": "",
+              "text_color": "#ffffff",
+              "text": "Announce something here",
+              "link": ""
+            }
+          }
+        },
+        "block_order": [
+          "announcement-bar-0"
+        ],
+        "settings": {
+          "announcement_bar_timing": 5
+        }
+      },
+      "popup": {
+        "type": "popup",
+        "blocks": {
+          "popup-0": {
+            "type": "heading",
+            "settings": {
+              "heading": "Sign up for our newsletter"
+            }
+          },
+          "popup-1": {
+            "type": "subheading",
+            "settings": {
+              "text": "<p>We only send emails once or twice a month and only about good things.<\/p>"
+            }
+          },
+          "popup-2": {
+            "type": "newsletter_signup",
+            "settings": {
+            }
+          }
+        },
+        "block_order": [
+          "popup-0",
+          "popup-1",
+          "popup-2"
+        ],
+        "settings": {
+          "enable": false,
+          "position": "bottom-right",
+          "dismiss_text": "No thanks"
+        }
+      }
+    },
+    "content_for_index": [
+
+    ]
+  },
+  "presets": {
+    "Chic": {
+      "color_accent": "#67a281",
+      "color_text": "#3d3d3d",
+      "color_button_text": "#ffffff",
+      "color_bg": "#ffffff",
+      "color_border": "#e2e2e2",
+      "color_secondary_button": "#f8f8f8",
+      "color_secondary_button_text": "#50906c",
+      "color_sale_badge": "#b6534c",
+      "color_success_message": "#82b875",
+      "color_error_message": "#b6534c",
+      "color_header_text": "#363636",
+      "color_header_bg": "#ffffff",
+      "color_header_border": "#e2e2e2",
+      "color_header_icon": "#9a9a9a",
+      "color_contrast_text": "#363636",
+      "color_contrast_bg": "#fafafa",
+      "color_contrast_border": "#e2e2e2",
+      "color_navigation_text": "#3d3d3d",
+      "color_navigation_bg": "#fafafa",
+      "color_navigation_border": "#e6e6e6",
+      "color_navigation_feature": "#ffffff",
+      "color_drawer_text": "#ffffff",
+      "color_drawer_bg": "#212121",
+      "color_drawer_border": "#434343",
+      "color_footer_text": "#363636",
+      "color_footer_bg": "#f9f9f9",
+      "color_footer_border": "#e2e2e2",
+      "color_footer_input": "#ffffff",
+      "color_footer_input_text": "#757575",
+      "font_heading": "electra_n4",
+      "size_heading": 16,
+      "uppercase_headings": false,
+      "font_body": "assistant_n4",
+      "size_body": 16,
+      "font_logo": "electra_n7",
+      "font_logo_size": 32,
+      "share_image": "",
+      "share_facebook": true,
+      "share_twitter": true,
+      "share_pinterest": true,
+      "social_twitter_link": "",
+      "social_facebook_link": "",
+      "social_pinterest_link": "",
+      "social_instagram_link": "",
+      "social_snapchat_link": "",
+      "social_tumblr_link": "",
+      "social_youtube_link": "",
+      "social_vimeo_link": "",
+      "cart_notes_enable": true,
+      "currency_format": "money_with_currency_format",
+      "favicon": "",
+      "checkout_header_image": "",
+      "checkout_logo_image": "",
+      "checkout_logo_position": "left",
+      "checkout_logo_size": "medium",
+      "checkout_body_background_image": "",
+      "checkout_body_background_color": "#fff",
+      "checkout_input_background_color_mode": "white",
+      "checkout_sidebar_background_image": "",
+      "checkout_sidebar_background_color": "#fafafa",
+      "checkout_heading_font": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'",
+      "checkout_body_font": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'",
+      "checkout_accent_color": "#197bbd",
+      "checkout_button_color": "#197bbd",
+      "checkout_error_color": "#e32c2b",
+      "sections": {
+        "footer": {
+          "type": "footer",
+          "blocks": {
+            "footer-0": {
+              "type": "text",
+              "settings": {
+                "title": "About the shop",
+                "text": "<p>Use this text area to tell your customers about your brand and vision. You can change it in the theme settings.<\/p>"
+              }
+            },
+            "footer-1": {
+              "type": "link_list",
+              "settings": {
+                "menu": "main-menu"
+              }
+            },
+            "footer-2": {
+              "type": "link_list",
+              "settings": {
+                "menu": "footer"
+              }
+            }
+          },
+          "block_order": [
+            "footer-0",
+            "footer-1",
+            "footer-2"
+          ],
+          "settings": {
+            "show_payment_icons": true
+          }
+        },
+        "header": {
+          "type": "header",
+          "settings": {
+            "logo": "",
+            "logo_max_width": 120,
+            "transparent_header_foreground_color": "#ffffff",
+            "transparent_header_border_color": "#ffffff",
+            "transparent_header_border_opacity": 20,
+            "transparent_header_logo": ""
+          }
+        }
+      }
+    },
+    "Modern": {
+      "color_accent": "#ff460c",
+      "color_text": "#363636",
+      "color_button_text": "#ffffff",
+      "color_bg": "#ffffff",
+      "color_border": "#e2e2e2",
+      "color_input": "#ffffff",
+      "color_input_text": "#3a3a3a",
+      "color_secondary_button": "#f7f7f7",
+      "color_secondary_button_text": "#494949",
+      "color_sale_badge": "#b6534c",
+      "color_success_message": "#82b875",
+      "color_error_message": "#b6534c",
+      "color_header_text": "#363636",
+      "color_header_bg": "#ffffff",
+      "color_header_border": "#e2e2e2",
+      "color_header_icon": "#9a9a9a",
+      "color_contrast_text": "#363636",
+      "color_contrast_bg": "#f9f9f9",
+      "color_contrast_border": "#e2e2e2",
+      "color_contrast_input": "#ffffff",
+      "color_contrast_input_text": "#7c7c7c",
+      "color_navigation_text": "#ffffff",
+      "color_navigation_bg": "#1b4142",
+      "color_navigation_border": "#285556",
+      "color_navigation_feature": "#244960",
+      "color_drawer_text": "#ffffff",
+      "color_drawer_bg": "#1b4142",
+      "color_drawer_border": "#285556",
+      "color_footer_text": "#363636",
+      "color_footer_bg": "#f9f9f9",
+      "color_footer_border": "#e2e2e2",
+      "color_footer_input": "#ffffff",
+      "color_footer_input_text": "#757575",
+      "font_heading": "electra_n4",
+      "size_heading": 16,
+      "uppercase_headings": false,
+      "font_body": "assistant_n4",
+      "size_body": 16,
+      "font_logo": "electra_n7",
+      "font_logo_size": 32,
+      "share_image": "",
+      "share_facebook": true,
+      "share_twitter": true,
+      "share_pinterest": true,
+      "social_twitter_link": "",
+      "social_facebook_link": "",
+      "social_pinterest_link": "",
+      "social_instagram_link": "",
+      "social_snapchat_link": "",
+      "social_tumblr_link": "",
+      "social_youtube_link": "",
+      "social_vimeo_link": "",
+      "cart_notes_enable": true,
+      "quick_cart_note": "Your subtotal today is [subtotal]. Shipping and taxes will calculated at checkout.",
+      "currency_format": "money_with_currency_format",
+      "favicon": "",
+      "checkout_header_image": "",
+      "checkout_logo_image": "",
+      "checkout_logo_position": "left",
+      "checkout_logo_size": "medium",
+      "checkout_body_background_image": "",
+      "checkout_body_background_color": "#fff",
+      "checkout_input_background_color_mode": "white",
+      "checkout_sidebar_background_image": "",
+      "checkout_sidebar_background_color": "#fafafa",
+      "checkout_heading_font": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'",
+      "checkout_body_font": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'",
+      "checkout_accent_color": "#197bbd",
+      "checkout_button_color": "#197bbd",
+      "checkout_error_color": "#e32c2b",
+      "sections": {
+        "footer": {
+          "type": "footer",
+          "blocks": {
+            "footer-0": {
+              "type": "text",
+              "settings": {
+                "title": "About the shop",
+                "text": "<p>Use this text area to tell your customers about your brand and vision. You can change it in the theme settings.<\/p>"
+              }
+            },
+            "footer-1": {
+              "type": "link_list",
+              "settings": {
+                "menu": "main-menu"
+              }
+            },
+            "footer-2": {
+              "type": "link_list",
+              "settings": {
+                "menu": "footer"
+              }
+            }
+          },
+          "block_order": [
+            "footer-0",
+            "footer-1",
+            "footer-2"
+          ],
+          "settings": {
+            "show_newsletter_signup": true,
+            "show_payment_icons": true
+          }
+        },
+        "header": {
+          "type": "header",
+          "settings": {
+            "logo": "",
+            "logo_max_width": 120,
+            "transparent_header_foreground_color": "#ffffff",
+            "transparent_header_border_color": "#ffffff",
+            "transparent_header_border_opacity": 10,
+            "transparent_header_logo": ""
+          }
+        }
+      }
+    },
+    "Essential": {
+      "color_accent": "#a09b9a",
+      "color_text": "#3d3d3d",
+      "color_button_text": "#ffffff",
+      "color_bg": "#ffffff",
+      "color_border": "#e2e2e2",
+      "color_input": "#ffffff",
+      "color_input_text": "#363636",
+      "color_secondary_button": "#f8f8f8",
+      "color_secondary_button_text": "#50906c",
+      "color_sale_badge": "#b6534c",
+      "color_success_message": "#82b875",
+      "color_error_message": "#b6534c",
+      "color_header_text": "#363636",
+      "color_header_bg": "#ffffff",
+      "color_header_border": "#e2e2e2",
+      "color_header_icon": "#9a9a9a",
+      "color_contrast_text": "#363636",
+      "color_contrast_bg": "#f7f5f5",
+      "color_contrast_border": "#e2e2e2",
+      "color_contrast_input": "#ffffff",
+      "color_contrast_input_text": "#363636",
+      "color_navigation_text": "#ffffff",
+      "color_navigation_bg": "#354b42",
+      "color_navigation_border": "#506a5f",
+      "color_navigation_feature": "#26352f",
+      "color_drawer_text": "#ffffff",
+      "color_drawer_bg": "#212121",
+      "color_drawer_border": "#434343",
+      "color_footer_text": "#ffffff",
+      "color_footer_bg": "#2f4b40",
+      "color_footer_border": "#4b655b",
+      "color_footer_input": "#ffffff",
+      "color_footer_input_text": "#757575",
+      "font_heading": "agmena_n4",
+      "size_heading": 16,
+      "uppercase_headings": false,
+      "font_body": "assistant_n4",
+      "size_body": 16,
+      "font_logo": "agmena_n7",
+      "font_logo_size": 32,
+      "share_image": "",
+      "share_facebook": true,
+      "share_twitter": true,
+      "share_pinterest": true,
+      "social_twitter_link": "",
+      "social_facebook_link": "",
+      "social_pinterest_link": "",
+      "social_instagram_link": "",
+      "social_snapchat_link": "",
+      "social_tumblr_link": "",
+      "social_youtube_link": "",
+      "social_vimeo_link": "",
+      "cart_notes_enable": true,
+      "quick_cart_note": "Your subtotal today is [subtotal]. Shipping and taxes will calculated at checkout.",
+      "currency_format": "money_with_currency_format",
+      "favicon": "",
+      "checkout_header_image": "",
+      "checkout_logo_image": "",
+      "checkout_logo_position": "left",
+      "checkout_logo_size": "medium",
+      "checkout_body_background_image": "",
+      "checkout_body_background_color": "#fff",
+      "checkout_input_background_color_mode": "white",
+      "checkout_sidebar_background_image": "",
+      "checkout_sidebar_background_color": "#fafafa",
+      "checkout_heading_font": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'",
+      "checkout_body_font": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'",
+      "checkout_accent_color": "#197bbd",
+      "checkout_button_color": "#197bbd",
+      "checkout_error_color": "#e32c2b",
+      "sections": {
+        "footer": {
+          "type": "footer",
+          "blocks": {
+            "footer-0": {
+              "type": "text",
+              "settings": {
+                "title": "About the shop",
+                "text": "<p>Use this text area to tell your customers about your brand and vision. You can change it in the theme settings.<\/p>"
+              }
+            },
+            "footer-1": {
+              "type": "link_list",
+              "settings": {
+                "menu": "footer"
+              }
+            },
+            "footer-2": {
+              "type": "link_list",
+              "settings": {
+                "menu": "footer"
+              }
+            },
+            "footer-3": {
+              "type": "link_list",
+              "settings": {
+                "menu": "footer"
+              }
+            }
+          },
+          "block_order": [
+            "footer-0",
+            "footer-1",
+            "footer-2",
+            "footer-3"
+          ],
+          "settings": {
+            "show_newsletter_signup": true,
+            "show_payment_icons": true
+          }
+        },
+        "header": {
+          "type": "header",
+          "settings": {
+            "logo": "",
+            "logo_max_width": 120,
+            "transparent_header_foreground_color": "#ffffff",
+            "transparent_header_border_color": "#ffffff",
+            "transparent_header_border_opacity": 30,
+            "transparent_header_logo": ""
+          }
+        }
+      }
+    }
+  }
+}

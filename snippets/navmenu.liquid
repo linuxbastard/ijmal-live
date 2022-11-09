@@ -1,0 +1,100 @@
+{%- capture navmenu_classes -%}
+  nav
+  nav--depth-{{ depth }}
+  {% if is_submenu %}nav__submenu{% endif %}
+{%- endcapture -%}
+
+{% assign menu_title = false %}
+{% if is_submenu %}
+  {% assign list = menu.links %}
+  {% assign menu_title = sub_menu_title %}
+  {% assign menu_text_color = 'default' %}
+{% else %}
+  {% assign list = linklists[menu].links %}
+  {% assign menu_title = linklists[menu].title %}
+{% endif %}
+
+<ul
+  class="list ma0 pa0 lh-copy {{ menu_text_color }} {{ navmenu_classes | strip_newlines }}"
+  data-depth="{{ depth | minus: 1 }}"
+  {% if has_triggers and is_submenu %}data-submenu{% endif %}
+>
+  {% for link in list %}
+
+    {% assign d = depth | plus: 1 %}
+    {% assign show_meganav = false %}
+
+    {% assign show_subnav = true %}
+    {% if d > max_depth or linklists[link.handle] == blank %}
+      {% assign show_subnav = false %}
+    {% endif %}
+
+    {% if blocks.size > 0 %}
+      {% for block in blocks %}
+        {% assign meganav_trigger = block.settings.dropdown_parent_link | handle | strip %}
+        {% if link.handle == meganav_trigger and depth == 1 %}
+          {% assign show_meganav = true %}
+          {% assign shopify_attributes = block.shopify_attributes %}
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+
+    {% comment %} Simple nav item {% endcomment %}
+    {% unless show_subnav or show_meganav %}
+      <li class="nav__item nav__item-{{ link.handle }}">
+        <a class="nav__link {% if link.active %}active{% endif %}" href="{{ link.url }}" data-link>{{ link.title }}</a>
+      </li>
+
+    {% comment %} Item with children or mega nav {% endcomment %}
+    {% else %}
+      {%- capture navmenu_item_classes -%}
+        nav__item
+        nav__item-parent
+        nav__item-id-{{ link.handle }}
+        {% if show_meganav %}nav__item-parent--meganav{% endif %}
+      {%- endcapture -%}
+
+      <li
+        class="{{ navmenu_item_classes | strip_newlines }}"
+        data-submenu-parent
+        {% if has_triggers %}data-navmenu-trigger{% endif %}
+        {% if has_triggers and show_meganav %}data-navmenu-meganav-trigger{% endif %}
+      >
+        <a class="nav__link nav__link-parent {% if link.active %}active{% endif %}" href="{{ link.url }}" data-link data-parent><span>{{ link.title }}</span> {% render 'icon' with icon: 'chevron-right', class: "nav__sub-indicator" %}</a>
+
+        {% comment %} Item with a meganav {% endcomment %}
+        {% if show_meganav %}
+          {%- capture meganav_classes -%}
+            nav__submenu
+            nav__meganav
+            {% if is_site_nav %}nav__meganav--desktop{% endif %}
+          {%- endcapture -%}
+
+          <div class="ignore-submenu-parent z-5 absolute w-100 left-0 {{ meganav_classes }}" data-nav-submenu data-meganav-menu data-submenu-parent data-submenu>
+            <div class="ignore-submenu-parent w-100 mw-c center ph4">
+              {% render 'mega-navigation' with
+                menu: link.handle,
+                depth: d,
+                blocks: blocks,
+                link: link,
+              %}
+            </div>
+          </div>
+
+        {% comment %} Item with simple dropdown {% endcomment %}
+        {% else %}
+          {% render 'navmenu' with
+            menu: linklists[link.handle],
+            depth: d,
+            is_submenu: true,
+            sub_menu_title: link.title,
+            has_triggers: true,
+          %}
+        {% endif %}
+
+
+
+      </li>
+    {% endunless %}
+  {% endfor %}
+</ul>

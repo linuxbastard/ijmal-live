@@ -1,0 +1,42 @@
+
+{%- capture placeholder_image -%}
+  <div class="placeholder-image">
+    {{ 'collection-' | append: forloop.index | placeholder_svg_tag: 'placeholder-svg' }}
+  </div>
+{%- endcapture -%}
+
+<div class="collection-list__collection">
+  <a
+    href="{{ collection.url | default: "#" }}"
+    class="collection-list-item{% render 'aspect-ratio-modifier' with aspect_ratio: section.settings.aspect_ratio %}"
+    {{ block.shopify_attributes }}
+    data-index="{{ forloop.index0 }}"
+    aria-label="{{ collection.title }}"
+  >
+    {% if collection.image != blank or collection.products.first != blank %}
+      {%- assign image_object = collection.image | default: collection.products.first.featured_media.preview_image -%}
+      {%- if image_object != blank -%}
+        {% render 'responsive-image' with
+          image: image_object,
+          max_width: 1200,
+          max_height: 1200
+        %}
+      {%- else -%}
+        {{ placeholder_image }}
+      {%- endif -%}
+    {%- elsif collection == empty -%}
+      {{ placeholder_image }}
+    {% else %}
+      {{ placeholder_image }}
+    {% endif %}
+  </a>
+
+  <div class="collection-list__collection-content">
+    {%- assign default_label = 'homepage.onboarding.collection_title' | t -%}
+    <h1 class="collection-list__collection-heading type-heading-2"><a class="color-inherit" href="{{ collection.url }}">{{ collection.title | default: default_label }}</a></h1>
+
+    {% if collection.description != blank and show_description %}
+      <div class="collection-list__collection-description type-body-small">{{ collection.description | strip_html | truncatewords: 25 }}</div>
+    {% endif %}
+  </div>
+</div>

@@ -1,0 +1,68 @@
+<div data-quick-cart-items>
+  {%- if cart.item_count > 0 -%}
+    {%- for item in cart.items -%}
+      <div data-cart-item>
+        <div class='cart__item' data-id="{{ item.id }}">
+          <div class='quick-cart__image'>
+            {%- if item.image != blank -%}
+              <a href="{{ item.url }}">
+                {{ item | img_url: '150x150' | img_tag: item.title }}
+              </a>
+            {%- else -%}
+              <a href="{{ product.url }}" aria-label="{{ product.title }}">
+                <div class="placeholder-image product-item__image">
+                  {{ 'product-1' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+                </div>
+              </a>
+            {%- endif -%}
+          </div>
+          <div class='quick-cart__product-details justify-between'>
+            <div>
+              <h4 class="ma0">
+                <a href="{{ item.url }}">{{ item.product.title }}</a>
+              </h4>
+
+              {% unless item.product.has_only_default_variant %}
+                <p class="type-body-small mt0 mb1">{{ item.variant.title }}</p>
+              {% endunless %}
+
+              <span class="meta">
+                {% if item.original_line_price > item.final_line_price %}
+                  <s>{{ item.original_price | money }}</s>
+                {% endif %}
+
+                {{ item.final_price | money }}
+
+                {% render 'unit-price', item: item %}
+
+                {% if item.line_level_discount_allocations.size > 0 %}
+                  <ul class="quick-cart__item-discount">
+                  {% for discount_allocation in item.line_level_discount_allocations %}
+                    <li>{{ discount_allocation.discount_application.title }} (-{{ discount_allocation.amount | money }})</li>
+                  {% endfor %}
+                  </ul>
+                {% endif %}
+
+                {% if item.selling_plan_allocation %}
+                  <p class="mt0 mb0 meta">{{ item.selling_plan_allocation.selling_plan.name }}<p>
+                {% endif %}
+              </span>
+            </div>
+
+            <div class='quick-cart__item-bottom'>
+              <div class='quick-cart__quantity'>
+                <button type='button' class='quick-cart__quantity-button js-remove-single px05'>-</button>
+                <div class='quick-cart__item-total js-single-quantity'>{{ item.quantity }}</div>
+                <button type='button' class='quick-cart__quantity-button js-add-single px05'>+</button>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    {%- endfor -%}
+  {%- else -%}
+    <p class="quick-cart__empty-state">{{ 'cart.general.empty' | t }}</p>  
+  {%- endif -%}
+</div>

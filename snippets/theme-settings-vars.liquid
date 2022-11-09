@@ -1,0 +1,134 @@
+{%- liquid
+  assign font_body_bold = settings.font_body | font_modify: 'weight', '+100'
+  assign font_body_italic = settings.font_body | font_modify: 'style', 'italic'
+  assign font_body_bold_italic = settings.font_body | font_modify: 'weight', '+100' | font_modify: 'style', 'italic'
+
+  assign font_heading_bold = settings.font_heading | font_modify: 'weight', '+100'
+  assign font_heading_italic = settings.font_heading | font_modify: 'style', 'italic'
+
+  assign brightness_background = settings.color_bg | color_brightness
+  if brightness_background > 127
+    assign color_background_meta = settings.color_bg | color_darken: 4
+  else
+    assign color_background_meta = settings.color_bg | color_lighten: 4
+  endif
+
+  assign brightness_contrast_background = settings.color_contrast_bg | color_brightness
+  if brightness_contrast_background > 127
+    assign color_constrast_background_meta = settings.color_contrast_bg | color_darken: 4
+  else
+    assign color_constrast_background_meta = settings.color_contrast_bg | color_lighten: 4
+  endif
+
+  assign brightness_drawer_background = settings.color_drawer_bg | color_brightness
+  if brightness_drawer_background > 127
+    assign color_drawer_background_meta = settings.color_drawer_bg | color_darken: 4
+  else
+    assign color_drawer_background_meta = settings.color_drawer_bg | color_lighten: 4
+  endif
+
+  assign brightness_navigation_background = settings.color_navigation_bg | color_brightness
+  if brightness_navigation_background > 127
+    assign color_navigation_background_meta = settings.color_navigation_bg | color_darken: 4
+  else
+    assign color_navigation_background_meta = settings.color_navigation_bg | color_lighten: 4
+  endif
+-%}
+
+<style>
+  {{ settings.font_logo | font_face: font_display: 'swap' }}
+
+  {{ settings.font_heading | font_face: font_display: 'swap' }}
+  {{ font_heading_bold | font_face: font_display: 'swap' }}
+  {{ font_heading_italic | font_face: font_display: 'swap' }}
+
+  {{ settings.font_body | font_face: font_display: 'swap' }}
+  {{ font_body_bold | font_face: font_display: 'swap' }}
+  {{ font_body_italic | font_face: font_display: 'swap' }}
+  {{ font_body_bold_italic | font_face: font_display: 'swap' }}
+
+  :root {
+    --color-accent: {{ settings.color_accent }};
+    --color-text: {{ settings.color_text }};
+    --color-text-meta: {{ settings.color_text | color_modify: 'alpha', 0.6 }};
+    --color-button-text: {{ settings.color_button_text }};
+    --color-bg: {{ settings.color_bg }};
+    --color-bg-transparent: {{ settings.color_bg | color_modify: 'alpha', 0.8 }};
+    --color-bg-meta: {{ color_background_meta }};
+    --color-bg-meta-darker: {{ color_background_meta | color_darken: 5 }};
+    --color-border: {{ settings.color_border }};
+    --color-input: {{ settings.color_input }};
+    --color-input-text: {{ settings.color_input_text }};
+    --color-input-bg-hover: {{ settings.color_input_text | color_modify: 'alpha', 0.05 }};
+    --color-secondary-button: {{ settings.color_secondary_button }};
+    --color-secondary-button-darker: {{ settings.color_secondary_button | color_darken: 5 }};
+    --color-secondary-button-text: {{ settings.color_secondary_button_text }};
+    --color-sale-badge: {{ settings.color_sale_badge }};
+    --color-success-message: {{ settings.color_success_message }};
+    --color-error-message: {{ settings.color_error_message }};
+
+    --color-header-text: {{ settings.color_header_text }};
+    --color-header-bg: {{ settings.color_header_bg }};
+    --color-header-border: {{ settings.color_header_border }};
+    --color-header-icon: {{ settings.color_header_icon }};
+
+    --color-contrast-text: {{ settings.color_contrast_text }};
+    --color-contrast-text-meta: {{ settings.color_contrast_text | color_modify: 'alpha', 0.6 }};
+    --color-contrast-bg: {{ settings.color_contrast_bg }};
+    --color-contrast-bg-meta: {{ color_constrast_background_meta }};
+    --color-contrast-bg-meta-darker: {{ color_constrast_background_meta | color_darken: 5 }};
+    --color-contrast-border: {{ settings.color_contrast_border }};
+    --color-contrast-input: {{ settings.color_contrast_input }};
+    --color-contrast-input-text: {{ settings.color_contrast_input_text }};
+
+    --color-navigation-text: {{ settings.color_navigation_text }};
+    --color-navigation-text-meta: {{ settings.color_navigation_text | color_modify: 'alpha', 0.6 }};
+    --color-navigation-bg: {{ settings.color_navigation_bg }};
+    --color-navigation-bg-meta: {{ color_navigation_background_meta }};
+    --color-navigation-bg-darker: {{ settings.color_navigation_bg | color_darken: 5 }};
+    --color-navigation-border: {{ settings.color_navigation_border }};
+    --color-navigation-feature: {{ settings.color_navigation_feature }};
+
+    --color-drawer-text: {{ settings.color_drawer_text }};
+    --color-drawer-text-meta: {{ settings.color_drawer_text | color_modify: 'alpha', 0.6  }};
+    --color-drawer-bg: {{ settings.color_drawer_bg }};
+    --color-drawer-bg-meta: {{ color_drawer_background_meta }};
+    --color-drawer-border: {{ settings.color_drawer_border }};
+    --color-drawer-bg-hover: {{ settings.color_drawer_text | color_modify: 'alpha', 0.05 }};
+
+    --color-footer-text: {{ settings.color_footer_text }};
+    --color-footer-text-meta: {{ settings.color_footer_text | color_modify: 'alpha', 0.6 }};
+    --color-footer-bg: {{ settings.color_footer_bg }};
+    --color-footer-border: {{ settings.color_footer_border }};
+    --color-footer-input: {{ settings.color_footer_input }};
+    --color-footer-input-text: {{ settings.color_footer_input_text }};
+
+    --color-bg-overlay: {{ settings.color_text | color_modify: 'alpha', 0.25 }};
+    --color-transparent-body: {{ settings.color_text | color_modify: 'alpha', 0.5 }};
+
+    --font-logo: {{ settings.font_logo.family }}, {{ settings.font_logo.fallback_families }};
+    --font-logo-weight: {{ settings.font_logo.weight }};
+    --font-logo-style: {{ settings.font_logo.style }};
+
+    --font-heading: {{ settings.font_heading.family }}, {{ settings.font_heading.fallback_families }};
+    --font-heading-weight: {{ settings.font_heading.weight }};
+    --font-heading-style: {{ settings.font_heading.style }};
+    --font-heading-bold-weight: {{ font_heading_bold.weight | default: 'bold' }};
+
+    --font-body: {{ settings.font_body.family }}, {{ settings.font_body.fallback_families }};
+    --font-body-weight: {{ settings.font_body.weight }};
+    --font-body-style: {{ settings.font_body.style }};
+    --font-body-bold-weight: {{ font_body_bold.weight | default: 'bold' }};
+
+    --font-size-body-extra-small: {{ settings.size_body | times: 0.75 | round | append: 'px' }};
+    --font-size-body-small: {{ settings.size_body | times: 0.875 | round | append: 'px' }};
+    --font-size-body-base: {{ settings.size_body | append: 'px' }};
+    --font-size-body-large: {{ settings.size_body | times: 1.125 | round | append: 'px' }};
+    --font-size-body-extra-large: {{ settings.size_body | times: 1.3125 | round | append: 'px' }};
+
+    --font-size-heading-display: {{ settings.size_heading | times: 2.25 | round | append: 'px' }};
+    --font-size-heading-1: {{ settings.size_heading | times: 1.5 | round | append: 'px' }};
+    --font-size-heading-2: {{ settings.size_heading | times: 1.3125 | round | append: 'px' }};
+    --font-size-heading-3: {{ settings.size_heading | times: 1.125 | round | append: 'px' }};
+  }
+</style>

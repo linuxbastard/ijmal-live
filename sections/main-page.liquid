@@ -1,0 +1,18 @@
+{% render 'page-header' with title: page.title %}
+
+<div
+  class="mw-c center ph3 ph4-ns"
+  data-section-id="{{ section.id }}"
+  data-section-type="page"
+>
+  <div class="type-body-large rte centered-content mb6">
+    {{ page.content }}
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "t:sections.main_page.name",
+    "tag": "section"
+  }
+{% endschema %}

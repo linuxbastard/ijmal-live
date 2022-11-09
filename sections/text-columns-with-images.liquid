@@ -1,0 +1,207 @@
+<div
+  data-section-id="{{ section.id }}"
+  data-section-type="text-columns-with-images"
+  class="section"
+>
+  <div
+    class="
+      text-columns
+      text-columns--text-{{ section.settings.text_alignment }}
+      text-columns--{%- if section.settings.outline -%}outline{%- else -%}standard{%- endif -%}
+    "
+    style="--text-max-width: {{ section.settings.text_max_width }}rem;"
+  >
+
+    {% if section.settings.title != blank or section.settings.subheading != blank %}
+      <div class="text-columns__heading">
+        {%- if section.settings.title != blank -%}
+          <h2 class="text-columns__title type-heading-1 ma0 mb3">{{ section.settings.title }}</h2>
+        {%- endif -%}
+        {%- if section.settings.subheading != blank -%}
+          <div class="text-columns__subheading type-body-regular rte">{{ section.settings.subheading }}</div>
+        {%- endif -%}
+      </div>
+    {% endif %}
+
+    <div class="text-columns__content">
+      {% for block in section.blocks %}
+        <div
+          class="text-columns__feature text-columns__feature--{{ section.blocks.size }}"
+          style="--text-max-width: {{ block.settings.text_max_width }}rem;"
+        >
+          {%- if block.settings.image != blank -%}
+            <div class="mb3{% if section.settings.text_alignment == 'center' %} ml-auto mr-auto{% endif %}" style="max-width: {{ block.settings.image_max_width }}%;">
+              <div
+                class="{% render 'aspect-ratio-modifier' with aspect_ratio: block.settings.aspect_ratio %}"
+              >
+                {% render 'responsive-image' with image: block.settings.image, max_width: 600 %}
+              </div>
+            </div>
+          {%- endif -%}
+          {%- if block.settings.title != blank -%}
+            <h3 class="text-columns__feature-heading type-heading-2 mt0">{{ block.settings.title }}</h3>
+          {%- endif -%}
+          {%- if block.settings.subheading != blank -%}
+            <div class="text-columns__feature-subheading type-body-regular rte mb0">{{ block.settings.subheading }}</div>
+          {%- endif -%}
+          {%- if block.settings.link != blank and block.settings.link_text != blank -%}
+            <a href="{{ block.settings.link }}" class="type-body-regular accent-link db mt3">{{ block.settings.link_text }} &rarr;</a>
+          {%- endif -%}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "t:sections.text_columns_with_images.name",
+    "tag": "section",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "t:sections.text_columns_with_images.settings.title.label"
+      },
+      {
+        "type": "richtext",
+        "id": "subheading",
+        "label": "t:sections.text_columns_with_images.settings.subheading.label"
+      },
+      {
+        "type": "range",
+        "id": "text_max_width",
+        "label": "t:sections.text_columns_with_images.settings.text_max_width.label",
+        "min": 28,
+        "max": 48,
+        "step": 1,
+        "default": 44
+      },
+      {
+        "type": "select",
+        "id": "text_alignment",
+        "label": "t:sections.text_columns_with_images.settings.text_alignment.label",
+        "default": "left",
+        "options": [
+        {
+          "value": "left",
+          "label": "t:sections.text_columns_with_images.settings.text_alignment.options__1"
+        },
+        {
+          "value": "center",
+          "label": "t:sections.text_columns_with_images.settings.text_alignment.options__2"
+        }
+        ]
+      },
+      {
+        "type": "header",
+        "content": "t:sections.text_columns_with_images.settings.style__header.content"
+      },
+      {
+        "type": "checkbox",
+        "id": "outline",
+        "label": "t:sections.text_columns_with_images.settings.outline.label",
+        "default": false
+      }
+    ],
+    "max_blocks": 6,
+    "blocks": [
+      {
+        "type": "column",
+        "name": "t:sections.text_columns_with_images.blocks.column.name",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "t:sections.text_columns_with_images.blocks.column.settings.image.label"
+          },
+          {
+            "id": "aspect_ratio",
+            "type": "select",
+            "label": "t:sections.text_columns_with_images.blocks.column.settings.aspect_ratio.label",
+            "options": [
+              {
+                "label": "t:sections.text_columns_with_images.blocks.column.settings.aspect_ratio.options__1",
+                "value": "natural"
+              },
+              {
+                "label": "t:sections.text_columns_with_images.blocks.column.settings.aspect_ratio.options__2",
+                "value": "round"
+              },
+              {
+                "label": "t:sections.text_columns_with_images.blocks.column.settings.aspect_ratio.options__3",
+                "value": "square"
+              },
+              {
+                "label": "t:sections.text_columns_with_images.blocks.column.settings.aspect_ratio.options__4",
+                "value": "landscape"
+              },
+              {
+                "label": "t:sections.text_columns_with_images.blocks.column.settings.aspect_ratio.options__5",
+                "value": "portrait"
+              }
+            ],
+            "default": "natural"
+          },
+          {
+            "type": "range",
+            "id": "image_max_width",
+            "label": "t:sections.text_columns_with_images.blocks.column.settings.image_max_width.label",
+            "min": 10,
+            "max": 100,
+            "step": 10,
+            "unit": "%",
+            "default": 100
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "t:sections.text_columns_with_images.blocks.column.settings.title.label",
+            "default": "Feature heading"
+          },
+          {
+            "type": "richtext",
+            "id": "subheading",
+            "label": "t:sections.text_columns_with_images.blocks.column.settings.subheading.label",
+            "default": "<p>Tell a story, explain a detail about your product, or describe a new promotion.</p>"
+          },
+          {
+            "type": "range",
+            "id": "text_max_width",
+            "label": "t:sections.text_columns_with_images.blocks.column.settings.text_max_width.label",
+            "min": 20,
+            "max": 40,
+            "step": 1,
+            "default": 40
+          },
+          {
+            "type": "url",
+            "id": "link",
+            "label": "t:sections.text_columns_with_images.blocks.column.settings.link.label"
+          },
+          {
+            "type": "text",
+            "id": "link_text",
+            "label": "t:sections.text_columns_with_images.blocks.column.settings.link_text.label"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "t:sections.text_columns_with_images.presets.name",
+        "blocks": [
+          {
+            "type": "column"
+          },
+          {
+            "type": "column"
+          },
+          {
+            "type": "column"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

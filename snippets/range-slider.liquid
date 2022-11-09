@@ -1,0 +1,46 @@
+{%- assign max_price_amount = filter.range_max | money | strip_html | escape -%}
+
+<div class="range-slider" data-price-range>
+  <p class="range-slider__price-range-title">{{ "filters.max_price" | t: price: max_price_amount }}</p>
+  <div class="range-slider__slider" data-range-slider></div>
+
+  <div class="range-slider__price-range-input-wrapper">
+    <div class="range-slider__price-range-input">
+      <span class="range-slider__price-range-currency">{{ cart.currency.symbol }}</span>
+      <input
+        data-min-range-input
+        data-range-input="price-min"
+        data-filter-item
+        class="input"
+        name="{{ filter.min_value.param_name }}"
+        id="filter-{{ filter.label | escape }}-floor-{{ scope }}"
+        {%- if filter.min_value.value -%}
+          value="{{ filter.min_value.value | divided_by: 100 }}"
+        {%- endif -%}
+        type="number"
+        placeholder="0"
+        min="0"
+        max="{{ filter.range_max | divided_by: 100 | ceil }}"/>
+      <label class="range-slider__price-range-label visually-hidden" for="filter-{{ filter.label | escape }}">{{ 'filters.from' | t }}</label>
+    </div>
+    <span class="range-slider__price-range-separator">&ndash;</span>
+    <div class="range-slider__price-range-input">
+      <span class="range-slider__price-range-currency">{{ cart.currency.symbol }}</span>
+      <input
+        data-max-range-input
+        data-range-input="price-max"
+        data-filter-item
+        class="input"
+        name="{{ filter.max_value.param_name }}"
+        id="filter-{{ filter.label | escape }}-ceiling-{{ scope }}"
+        {%- if filter.max_value.value -%}
+          value="{{ filter.max_value.value | divided_by: 100 }}"
+        {%- endif -%}
+        type="number"
+        placeholder="{{ filter.range_max | divided_by: 100 | ceil }}"
+        min="0"
+        max="{{ filter.range_max | divided_by: 100 | ceil }}"/>
+      <label class="range-slider__price-range-label visually-hidden" for="filter-{{ filter.label | escape }}">{{ 'filters.to' | t }}</label>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,555 @@
+{
+  "sections": {
+    "slideshow-1": {
+      "type": "slideshow",
+      "blocks": {
+        "eaa3781c-59e7-47cd-8bbf-bcbf12938880": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/Variant-type-_-color-scaled.jpg",
+            "focal_point": "center_center",
+            "mobile_focal_point": "center_center",
+            "title": "This is your slideshow",
+            "subheading": "<p>Use it to set your brand's tone and create a first impression with your customers. Vibrant imagery with a lot of background accent works well for a full-screen effect.<\/p>",
+            "heading_max_width": 40,
+            "text_max_width": 40,
+            "link": "#",
+            "link_text": "Shop the Range",
+            "link_style": "button",
+            "text_position": "top_right",
+            "text_color": "#ffffff",
+            "overlay_color": "rgba(0,0,0,0)",
+            "overlay_opacity": 10
+          }
+        },
+        "slide-2": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/b5ba4e07-4660-4202-a4d2-3f7ee2b908c6-scaled.jpg",
+            "focal_point": "center_center",
+            "mobile_focal_point": "center_center",
+            "title": "This is your slideshow",
+            "subheading": "<p>Use it to set your brand's tone and create a first impression with your customers. Vibrant imagery with a lot of background accent works well for a full-screen effect.<\/p>",
+            "heading_max_width": 48,
+            "text_max_width": 34,
+            "link": "https:\/\/fluorescent.co\/help\/context\/slideshow",
+            "link_text": "Learn more",
+            "link_style": "button",
+            "text_position": "bottom_center",
+            "text_color": "#ffffff",
+            "overlay_color": "rgba(0,0,0,0)",
+            "overlay_opacity": 10
+          }
+        },
+        "741b7a5a-a35e-49ee-953d-70d65b758a2a": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/COMPILE-USP-06-scaled.jpg",
+            "focal_point": "center_center",
+            "mobile_focal_point": "center_center",
+            "title": "This is your slideshow",
+            "subheading": "<p>Use it to set your brand's tone and create a first impression with your customers. Vibrant imagery with a lot of background accent works well for a full-screen effect.<\/p>",
+            "heading_max_width": 40,
+            "text_max_width": 40,
+            "link": "#",
+            "link_text": "SHOp THE RANGE",
+            "link_style": "button",
+            "text_position": "middle_left",
+            "text_color": "#ffffff",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        }
+      },
+      "block_order": [
+        "eaa3781c-59e7-47cd-8bbf-bcbf12938880",
+        "slide-2",
+        "741b7a5a-a35e-49ee-953d-70d65b758a2a"
+      ],
+      "settings": {
+        "desktop_height": 100,
+        "mobile_height": 75,
+        "duration_autoplay": 3.5,
+        "enable_parallax": true,
+        "parallax_scale": 1.5
+      }
+    },
+    "rich-text": {
+      "type": "rich-text",
+      "blocks": {
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "title": "This is the Rich text section",
+            "text_max_width": 42
+          }
+        },
+        "text": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Use this text area to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.<\/p>",
+            "text_max_width": 42
+          }
+        },
+        "8ddbc2d4-7ee3-4c84-8cce-2a3e40d90549": {
+          "type": "button",
+          "settings": {
+            "link": "shopify:\/\/collections\/all",
+            "link_text": "Shop Now"
+          }
+        }
+      },
+      "block_order": [
+        "heading",
+        "text",
+        "8ddbc2d4-7ee3-4c84-8cce-2a3e40d90549"
+      ],
+      "settings": {
+      }
+    },
+    "2-column-mosaic-grid": {
+      "type": "2-column-mosaic-grid",
+      "blocks": {
+        "small_square-1": {
+          "type": "small_square",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/USP-PRESENCES-06-scaled.jpg",
+            "video_url": "",
+            "media_fit": "cover",
+            "focal_point": "center_center",
+            "title": "This is small square block",
+            "subheading": "",
+            "text_max_width": 32,
+            "link_text": "",
+            "link": "",
+            "link_style": "button",
+            "text_position": "left_top",
+            "background_color": "",
+            "color_text": "#ffffff",
+            "color_text_container": "",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        },
+        "medium_vertical_rect": {
+          "type": "medium_vertical_rect",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/USP-DEMURE-05-scaled.jpg",
+            "video_url": "",
+            "media_fit": "cover",
+            "focal_point": "center_center",
+            "title": "This is medium vertical block",
+            "subheading": "<p>Mix and match between sizes, set a background color or fill, and add text to blocks that are medium or larger.<\/p>",
+            "text_max_width": 32,
+            "link_text": "Learn more",
+            "link": "https:\/\/fluorescent.co\/help\/context\/collage",
+            "link_style": "button",
+            "text_position": "center_center",
+            "background_color": "",
+            "color_text": "#ffffff",
+            "color_text_container": "",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        },
+        "small_square-2": {
+          "type": "small_square",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/COMPILE-USP-05-scaled.jpg",
+            "video_url": "",
+            "media_fit": "cover",
+            "focal_point": "center_center",
+            "title": "This is small square block",
+            "subheading": "",
+            "text_max_width": 32,
+            "link_text": "",
+            "link": "",
+            "link_style": "button",
+            "text_position": "left_bottom",
+            "background_color": "",
+            "color_text": "#ffffff",
+            "color_text_container": "",
+            "overlay_color": "#000000",
+            "overlay_opacity": 25
+          }
+        }
+      },
+      "block_order": [
+        "small_square-1",
+        "medium_vertical_rect",
+        "small_square-2"
+      ],
+      "settings": {
+      }
+    },
+    "quotes": {
+      "type": "quotes",
+      "blocks": {
+        "quote": {
+          "type": "quote",
+          "settings": {
+            "quote": "<p>I choose the wrong size and they let me change the size. Suitable for those long standing. Padding best! Love love love it!\t\t\t\t\t\t<\/p>",
+            "author": "Jezwin"
+          }
+        },
+        "1174d6f3-7425-4376-b810-ab6350ec6a48": {
+          "type": "quote",
+          "settings": {
+            "quote": "<p>Tip top packaging. Luxurious feel. Love the shoes. Thanks. Comfortable and just right for me.<\/p>",
+            "author": "Taffyjong"
+          }
+        },
+        "5ab6a554-e67d-4dfe-9f85-28bfeb74bbfd": {
+          "type": "quote",
+          "settings": {
+            "quote": "<p>The design and colour just nice. The shoes really comfortable and light. Suitable for shopping and travel too.<\/p>",
+            "author": "Fifi Zalika Ambakri"
+          }
+        }
+      },
+      "block_order": [
+        "quote",
+        "1174d6f3-7425-4376-b810-ab6350ec6a48",
+        "5ab6a554-e67d-4dfe-9f85-28bfeb74bbfd"
+      ],
+      "settings": {
+        "duration_autoplay": 3.5,
+        "icon_width": 40,
+        "image_shape": "round",
+        "outline": false
+      }
+    },
+    "full-width-image-1": {
+      "type": "full-width-image",
+      "blocks": {
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "title": "Full width image section",
+            "text_max_width": 40
+          }
+        },
+        "subheading": {
+          "type": "subheading",
+          "settings": {
+            "subheading": "<p>This section can be used to organize the homepage into distinct areas, or mix and match it before or after items in a mosaic grid to give it a magazine-like feel.<\/p>",
+            "text_max_width": 40
+          }
+        },
+        "button": {
+          "type": "button",
+          "settings": {
+            "link": "https:\/\/fluorescent.co\/help\/context\/full-width-image",
+            "link_text": "Learn more",
+            "link_style": "button"
+          }
+        }
+      },
+      "block_order": [
+        "heading",
+        "subheading",
+        "button"
+      ],
+      "settings": {
+        "desktop_height": 70,
+        "mobile_height": 70,
+        "image": "shopify:\/\/shop_images\/Image-152.png",
+        "focal_point": "center_center",
+        "text_position": "middle_left",
+        "enable_parallax": true,
+        "parallax_scale": 1.5,
+        "text_color": "#000000",
+        "overlay_opacity": 0,
+        "overlay_color": "#707070"
+      }
+    },
+    "featured-collection-2": {
+      "type": "featured-collection",
+      "settings": {
+        "collection": "sandals",
+        "title": "Sandals",
+        "collection_subheading": "<p>Add a subheading to provide more details about this collection.<\/p>",
+        "link_text": "",
+        "heading_alignment": "left",
+        "products_per_row": 3,
+        "rows": 1,
+        "aspect_ratio": "square",
+        "outline": false
+      }
+    },
+    "featured-collection-1": {
+      "type": "featured-collection",
+      "settings": {
+        "collection": "shoes",
+        "title": "Shoes",
+        "collection_subheading": "<p>Add a subheading to provide more details about this collection.<\/p>",
+        "link_text": "",
+        "heading_alignment": "left",
+        "products_per_row": 3,
+        "rows": 1,
+        "aspect_ratio": "square",
+        "outline": false
+      }
+    },
+    "full-width-image-2": {
+      "type": "full-width-image",
+      "blocks": {
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "title": "Full width image section",
+            "text_max_width": 40
+          }
+        },
+        "subheading": {
+          "type": "subheading",
+          "settings": {
+            "subheading": "<p>This section can be used to organize the homepage into distinct areas, or mix and match it before or after items in a mosaic grid to give it a magazine-like feel.<\/p>",
+            "text_max_width": 40
+          }
+        },
+        "button": {
+          "type": "button",
+          "settings": {
+            "link": "https:\/\/fluorescent.co\/help\/context\/full-width-image",
+            "link_text": "Learn more",
+            "link_style": "button"
+          }
+        }
+      },
+      "block_order": [
+        "heading",
+        "subheading",
+        "button"
+      ],
+      "settings": {
+        "desktop_height": 100,
+        "mobile_height": 100,
+        "focal_point": "center_center",
+        "text_position": "top_right",
+        "enable_parallax": false,
+        "parallax_scale": 1.2,
+        "text_color": "#000000",
+        "overlay_opacity": 0,
+        "overlay_color": "#707070"
+      }
+    },
+    "featured-collection-3": {
+      "type": "featured-collection",
+      "settings": {
+        "collection": "best-sellers-1",
+        "title": "Best Sellers",
+        "collection_subheading": "<p>Add a subheading to provide more details about this collection.<\/p>",
+        "link_text": "",
+        "heading_alignment": "left",
+        "products_per_row": 4,
+        "rows": 2,
+        "aspect_ratio": "square",
+        "outline": false
+      }
+    },
+    "249db938-14cf-4180-9772-1b6b4619f974": {
+      "type": "video-hero",
+      "blocks": {
+        "template--16494562312404__249db938-14cf-4180-9772-1b6b4619f974-166581503844a1a0f8-0": {
+          "type": "heading",
+          "settings": {
+            "title": "Video Hero",
+            "text_max_width": 40
+          }
+        },
+        "template--16494562312404__249db938-14cf-4180-9772-1b6b4619f974-166581503844a1a0f8-1": {
+          "type": "subheading",
+          "settings": {
+            "subheading": "<p>Feature seamless auto-playing hero videos in this space.<\/p>",
+            "text_max_width": 40
+          }
+        }
+      },
+      "block_order": [
+        "template--16494562312404__249db938-14cf-4180-9772-1b6b4619f974-166581503844a1a0f8-0",
+        "template--16494562312404__249db938-14cf-4180-9772-1b6b4619f974-166581503844a1a0f8-1"
+      ],
+      "settings": {
+        "desktop_height": 80,
+        "mobile_height": 80,
+        "video_url": "https:\/\/cdn.shopify.com\/videos\/c\/o\/v\/e6197bfbae46441897ec9c43791d4fcd.mp4",
+        "focal_point": "center_center",
+        "alignment": "center_bottom",
+        "color_text": "#ffffff",
+        "color_overlay": "#000000",
+        "overlay_opacity": 30
+      }
+    },
+    "featured-product": {
+      "type": "featured-product",
+      "blocks": {
+        "price": {
+          "type": "price",
+          "settings": {
+          }
+        },
+        "title": {
+          "type": "title",
+          "settings": {
+          }
+        },
+        "vendor": {
+          "type": "vendor",
+          "settings": {
+          }
+        },
+        "border": {
+          "type": "border",
+          "settings": {
+          }
+        },
+        "variant-picker": {
+          "type": "variant_picker",
+          "settings": {
+            "show_swatches": true,
+            "variant_popup_option": "Size",
+            "variant_popup_text": "Size guide",
+            "variant_popup_page": ""
+          }
+        },
+        "quantity-selector": {
+          "type": "quantity_selector",
+          "settings": {
+          }
+        },
+        "buy-buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true,
+            "show_dynamic_policies": true
+          }
+        },
+        "description": {
+          "type": "description",
+          "settings": {
+          }
+        }
+      },
+      "block_order": [
+        "price",
+        "title",
+        "vendor",
+        "border",
+        "variant-picker",
+        "quantity-selector",
+        "buy-buttons",
+        "description"
+      ],
+      "settings": {
+        "product": "saara-luxe-horsebit",
+        "enable_video_looping": true,
+        "outline": false
+      }
+    },
+    "blog-posts": {
+      "type": "blog-posts",
+      "blocks": {
+        "article-1": {
+          "type": "article",
+          "settings": {
+            "article": "news\/wanita-bekerjaya-antara-mereka-yang-mudah-terdedah-dengan-plantar-fascitis"
+          }
+        },
+        "article-2": {
+          "type": "article",
+          "settings": {
+            "article": ""
+          }
+        },
+        "article-3": {
+          "type": "article",
+          "settings": {
+            "article": ""
+          }
+        }
+      },
+      "block_order": [
+        "article-1",
+        "article-2",
+        "article-3"
+      ],
+      "settings": {
+        "articles_per_row": 3,
+        "title": "",
+        "show_image": true,
+        "show_title": true,
+        "show_excerpt": true,
+        "show_date": true,
+        "aspect_ratio": "square"
+      }
+    },
+    "slideshow-2": {
+      "type": "slideshow",
+      "blocks": {
+        "slide-1": {
+          "type": "slide",
+          "settings": {
+            "focal_point": "center_center",
+            "mobile_focal_point": "center_center",
+            "title": "This is your slideshow",
+            "subheading": "<p>Use it to set your brand's tone and create a first impression with your customers. Vibrant imagery with a lot of background accent works well for a full-screen effect.<\/p>",
+            "heading_max_width": 48,
+            "text_max_width": 34,
+            "link": "https:\/\/fluorescent.co\/help\/context\/slideshow",
+            "link_text": "Learn more",
+            "link_style": "button",
+            "text_position": "middle_left",
+            "text_color": "#ffffff",
+            "overlay_color": "#000000",
+            "overlay_opacity": 10
+          }
+        },
+        "slide-2": {
+          "type": "slide",
+          "settings": {
+            "focal_point": "center_center",
+            "mobile_focal_point": "center_center",
+            "title": "This is your slideshow",
+            "subheading": "<p>Use it to set your brand's tone and create a first impression with your customers. Vibrant imagery with a lot of background accent works well for a full-screen effect.<\/p>",
+            "heading_max_width": 48,
+            "text_max_width": 34,
+            "link": "https:\/\/fluorescent.co\/help\/context\/slideshow",
+            "link_text": "Learn more",
+            "link_style": "button",
+            "text_position": "middle_center",
+            "text_color": "#ffffff",
+            "overlay_color": "#000000",
+            "overlay_opacity": 10
+          }
+        }
+      },
+      "block_order": [
+        "slide-1",
+        "slide-2"
+      ],
+      "settings": {
+        "desktop_height": 100,
+        "mobile_height": 100,
+        "duration_autoplay": 3.5,
+        "enable_parallax": false,
+        "parallax_scale": 1.2
+      }
+    }
+  },
+  "order": [
+    "slideshow-1",
+    "rich-text",
+    "2-column-mosaic-grid",
+    "quotes",
+    "full-width-image-1",
+    "featured-collection-2",
+    "featured-collection-1",
+    "full-width-image-2",
+    "featured-collection-3",
+    "249db938-14cf-4180-9772-1b6b4619f974",
+    "featured-product",
+    "blog-posts",
+    "slideshow-2"
+  ]
+}

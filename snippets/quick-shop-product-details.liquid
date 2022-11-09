@@ -1,0 +1,173 @@
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+
+<div class="quick-shop__details">
+  <div class="quick-shop__heading">
+    <div class="quick-shop__image" data-product-image-wrapper>
+      {% if current_variant.featured_image %}
+        {% render 'responsive-image' with
+          image: current_variant.featured_image,
+          max_width: 130,
+          max_height: 200,
+        %}
+      {% else %}
+        {% render 'responsive-image' with
+          image: product.featured_image,
+          max_width: 130,
+          max_height: 200,
+        %}
+      {% endif %}
+    </div>
+    <div class="quick-shop__product-details">
+      <h3 class="quick-shop__product-title ma0">
+        {% if is_placeholder %}
+          {{ 'homepage.onboarding.product_title' | t }}
+        {% else %}
+          {{ product.title }}
+        {% endif %}
+      </h3>
+      <div data-price-wrapper>
+        <span data-product-price class="type-body-regular meta{% if current_variant.compare_at_price > current_variant.price %} sale{% endif %}">
+          {% if is_placeholder %}
+            {{ 'homepage.onboarding.product_price' | t }}
+          {% else %}
+            {{ current_variant.price | money }}
+          {% endif %}
+        </span>
+
+          <span class="visually-hidden" data-compare-text>{{ 'products.product.regular_price' | t }}</span>
+          <s class="type-body-regular meta" data-compare-price>
+            {% if current_variant.compare_at_price > current_variant.price %}
+              {{ current_variant.compare_at_price | money }}
+            {% endif %}
+          </s>
+
+        {% render 'unit-price', item: current_variant %}
+      </div>
+
+    </div>
+  </div>
+
+  <div>
+    {% if product != blank %}
+
+      {% form 'product', product, data-product-form: '', data-product-handle: product.handle %}
+
+        {% unless product.has_only_default_variant %}
+          {% for option in product.options_with_values %}
+            <div class="js-enabled quick-shop__option">
+
+                <label for="Option{{ option.position }}" class="dib mb2">
+                  {{ option.name }}
+                </label>
+
+
+                {% comment %}
+                  All inputs that have `name=options[Name]` will be picked up by
+                  ProductForm, registered as an option input, and made available
+                  at ProductForm.optionsInputs
+                {% endcomment %}
+                <div class="select-wrapper">
+                  <select
+                    id="Option{{ option.position }}"
+                    name="options[{{ option.name | escape }}]"
+                    class="input-reset input w-100"
+                  >
+                    {% for value in option.values %}
+                      <option
+                        value="{{ value | escape }}"
+                        {% if option.selected_value == value %}selected="selected"{% endif %}>
+                          {{ value }}
+                      </option>
+                    {% endfor %}
+                  </select>
+                </div>
+            </div>
+          {% endfor %}
+        {% endunless %}
+
+        {% if product.selling_plan_groups.size > 0 %}
+          <div class="quick-shop__option">
+            <label for="plans" class="dib mb2">{{ 'general.products.selling_plan_options' | t }}</label>
+            <div class="select-wrapper">
+              <select name="selling_plan" id="plans" class="input-reset input w-100">
+                <option value="">{{ 'general.products.selling_plan_one_time' | t }}</option>
+                {% for variant in product.variants %}
+                  <optgroup label="{{ variant.title }}">
+                    {% for allocation in variant.selling_plan_allocations %}
+                      <option value="{{ allocation.selling_plan.id }}">
+                        {{ allocation.selling_plan.name }}
+                      </option>
+                    {% endfor %}
+                  </optgroup>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+        {% endif %}
+
+        {% comment %}
+          In order for this form to submit, it needs to contain an input with name="id".
+          ProductForm() will automatically create this input (or make sure it has the
+          right value set if it already exists) on form submit based on the
+          currently selected variant. However, if JS is disabled we need a fallback.
+
+          Include a single <select> element which allows users to select all variants
+          as a fallback and present it only when JS is disabled. In addition,
+          make sure you hide the option inputs declared above, like we do with the
+          `.js-enabled` class which only shows its contents when JS is enabled.
+        {% endcomment %}
+        <select data-variant-select name="id">
+          {% for variant in product.variants %}
+            <option
+              {% if variant == current_variant %}selected="selected"{% endif %}
+              {% unless variant.available %}disabled="disabled"{% endunless %}
+              value="{{ variant.id }}">
+                {{ variant.title }}
+            </option>
+          {% endfor %}
+        </select>
+
+
+        {% comment %}
+          Any input with `name="quantity"` will be picked up by ProductForm and
+          registered as a quantity input. If a quantity input is not included, a
+          default quantity of 1 is assumed.
+        {% endcomment %}
+          {%- if settings.cart_quick_shop_show_quantity_input -%}
+            <div class="quick-shop__input">
+              <label for="Quantity" class="dib mb2">{{ 'products.product.quantity' | t }}</label>
+              <input type="number" id="Quantity" name="quantity" value="1" min="1" class="input-reset input w-100">
+            </div>
+          {%- endif -%}
+
+        <div class="quick-shop__quantity-error hidden" data-quantity-error>
+          {{ 'products.product.quantity_error' | t }}
+        </div>
+
+        <button
+          type="submit"
+          class="bttn bttn--full quick-shop__add-to-cart-button bttn bttn-full bttn--small"
+          data-add-button
+          data-lang-available="{{ 'products.product.add_to_cart' | t }}"
+          data-lang-sold-out="{{ 'products.product.sold_out' | t }}"
+          {% unless current_variant.available %}disabled="disabled"{% endunless %}
+        >
+
+          <span class="bttn__spinner">
+           {% render 'icon-spinner' %}
+          </span>
+
+          <span data-add-button-text>
+            {% if current_variant.available %}
+              {{ 'products.product.add_to_cart' | t }}
+            {% else %}
+              {{ 'products.product.sold_out' | t }}
+            {% endif %}
+          </span>
+
+        </button>
+      {% endform %}
+
+    {% endif %}
+  </div>
+</div>

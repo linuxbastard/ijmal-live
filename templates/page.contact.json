@@ -1,0 +1,28 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page--contact",
+      "blocks": {
+        "info": {
+          "type": "info",
+          "settings": {
+          }
+        },
+        "form": {
+          "type": "form",
+          "settings": {
+          }
+        }
+      },
+      "block_order": [
+        "info",
+        "form"
+      ],
+      "settings": {
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

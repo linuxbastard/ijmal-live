@@ -1,0 +1,38 @@
+<ul class="mega-navigation">
+  {% for link in link.links %}
+    <li class="mega-navigation__list {% if forloop.last != true %}mega-navigation__list--border{% endif %}">
+      <h4 class="mega-navigation__list-heading"><a href="{{ link.url }}" data-link>{{ link.title }}</a></h4>
+      {% render 'navmenu' with
+        menu: link.handle
+      %}
+    </li>
+  {% endfor %}
+
+  {% for block in blocks %}
+    {% assign b = block.settings %}
+
+    {% assign meganav_trigger = b.dropdown_parent_link | handle | strip %}
+    {% if link.handle == meganav_trigger %}
+      {% if b.mega_nav_featured_image != blank or b.featured_image_heading != blank %}
+      <div class="mega-navigation__featured">
+        <div class="mega-navigation__featured-wrapper">
+          {% render 'responsive-image' with
+            image: b.mega_nav_featured_image,
+            max_width: 600
+          %}
+          {% if b.featured_image_heading != blank or b.featured_image_link_text != blank %}
+            <div class="mega-navigation__featured-content">
+              {% if b.featured_image_heading != blank %}
+                <h6 class="mega-navigation__featured-heading type-body-small">{{ b.featured_image_heading }}</h6>
+              {% endif %}
+              {% if b.featured_image_link_text != blank %}
+                <a class="mega-navigation__featured-link type-body-small" href="{{ b.featured_image_link }}" data-link>{{ b.featured_image_link_text }} &rarr;</a>
+              {% endif %}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+</ul>

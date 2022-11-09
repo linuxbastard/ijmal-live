@@ -1,0 +1,113 @@
+<div
+  data-section-id="{{ section.id }}"
+  data-section-type="collection-list"
+  class="
+    section
+    collection-list
+    collection-list--columns-{{ section.settings.collections_per_row }}
+  "
+>
+
+  {%- unless section.settings.title == blank -%}
+    <div class="collection-list__heading">
+      <h1 class="ma0 type-heading-1">{{ section.settings.title }}</h1>
+    </div>
+  {%- endunless -%}
+
+  <div class="collection-list__collections">
+    {%- for block in section.blocks -%}
+      {%- assign collection = collections[block.settings.collection] -%}
+      {% render 'collection-list-item' with
+        block: block,
+        forloop: forloop,
+        title: section.settings.title,
+        show_description: section.settings.show_description,
+        collection: collections[block.settings.collection],
+        aspect_ratio: section.settings.aspect_ratio
+      %}
+    {%- else -%}
+      {%- for i in (1..section.settings.collections_per_row) -%}
+        {% render 'collection-list-item' with
+          title: section.settings.title,
+          forloop: forloop,
+          aspect_ratio: section.settings.aspect_ratio,
+          placeholder: true
+        %}
+      {%- endfor -%}
+    {%- endfor -%}
+  </div>
+
+</div>
+
+{% schema %}
+  {
+    "name": "t:sections.collection_list.name",
+    "tag": "section",
+    "templates": ["404", "article", "blog", "cart", "collection", "list-collections", "customers/account", "customers/activate_account", "customers/addresses", "customers/login", "customers/order", "customers/register", "customers/reset_password", "gift_card", "index", "page", "product", "search"],
+    "settings": [
+      {
+        "type": "range",
+        "id": "collections_per_row",
+        "label": "t:sections.collection_list.settings.collections_per_row.label",
+        "min": 2,
+        "max": 4,
+        "step": 1,
+        "default": 3
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "t:sections.collection_list.settings.title.label",
+        "default": "Collection list"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_description",
+        "label": "t:sections.collection_list.settings.show_description.label",
+        "default": true
+      },
+      {
+        "id": "aspect_ratio",
+        "type": "select",
+        "label": "t:sections.collection_list.settings.aspect_ratio.label",
+        "options": [
+          { "label": "t:sections.collection_list.settings.aspect_ratio.options__1", "value": "natural" },
+          { "label": "t:sections.collection_list.settings.aspect_ratio.options__2", "value": "square" },
+          { "label": "t:sections.collection_list.settings.aspect_ratio.options__3", "value": "landscape" },
+          { "label": "t:sections.collection_list.settings.aspect_ratio.options__4", "value": "portrait" }
+        ],
+        "default": "square"
+      }
+    ],
+    "max_blocks": 12,
+    "blocks": [
+      {
+        "type": "collection",
+        "name": "t:sections.collection_list.blocks.collection.name",
+        "settings": [
+          {
+            "type": "collection",
+            "id": "collection",
+            "label": "t:sections.collection_list.blocks.collection.settings.collection.label"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "t:sections.collection_list.presets.name",
+        "blocks": [
+          {
+            "type": "collection"
+          },
+          {
+            "type": "collection"
+          },
+          {
+            "type": "collection"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

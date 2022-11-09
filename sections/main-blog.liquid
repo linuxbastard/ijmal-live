@@ -1,0 +1,162 @@
+{%- liquid
+  assign paginate_by = section.settings.articles_per_row | times: 3
+  assign columns = section.settings.articles_per_row
+-%}
+
+{% paginate blog.articles by paginate_by %}
+  <div class="
+      blog
+      blog--columns-{{ columns }}
+      {% if section.settings.show_date %}blog--has-date{% endif %}
+    "
+  >
+    <div class="blog__heading">
+      {%- assign blog_title = blog.title -%}
+
+      {%- if current_tags -%}
+        {%- capture blog_title -%}{{ blog.title | link_to: blog.url }} &mdash; {{ current_tags.first }}{%- endcapture -%}
+      {%- endif -%}
+
+      <div class="flex-ns justify-between-ns items-center-ns mt4 mb4 mb3-ns tc tl-ns">
+        <h2 class="dn-ns page-header__crumbs type-heading-meta mb2"><a href="{{ routes.root_url }}" class="color-inherit">{{ 'general.meta.home' | t }}</a> / {{ blog.title }}</h2>
+        <h1 class="ma0 type-heading-1">{{ blog_title }}</h1>
+
+        {%- if section.settings.show_rss -%}
+          <a href="/blogs/{{ blog.handle }}.atom" class="blog__rss underline dn di-ns">{{ 'general.meta.rss' | t }}</a>
+        {%- endif -%}
+      </div>
+
+    </div>
+
+    <div class="blog__container">
+      <section class="blog__articles">
+        {%- for article in blog.articles -%}
+          <article class="blog__article">
+            {%- if article.image and section.settings.show_image -%}
+              <a href="{{ article.url }}" class="{% render 'aspect-ratio-modifier' with aspect_ratio: section.settings.aspect_ratio %}" aria-label="{{ article.title }}">
+                {%- render 'responsive-image' with
+                  image: article.image,
+                  max_width: 520,
+                  max_height: 750
+                -%}
+              </a>
+            {%- endif -%}
+
+            <div class="blog__article-content">
+
+              <div>
+                {%- if section.settings.show_title -%}
+                  <h3 class="blog__article-heading type-heading-2">
+                    <a href="{{ article.url }}">{{ article.title }}</a>
+                  </h3>
+                {%- endif -%}
+
+                {%- if section.settings.show_excerpt -%}
+                  <div class="blog__article-excerpt type-body-small">{{ article.excerpt_or_content | strip_html | truncate: 200 }}</div>
+                {%- endif -%}
+              </div>
+
+              {%- if section.settings.show_date -%}
+                {%- capture date -%}{{ article.published_at | time_tag: format: 'month_day_year' }}{%- endcapture -%}
+                <div class="type-heading-meta meta">{{ date }}</div>
+              {%- endif -%}
+            </div>
+
+          </article>
+        {%- endfor -%}
+      </section>
+
+      <div class="blog__pagination">
+        {%- if paginate.pages > 1 -%}
+          {%- render 'pagination' with
+            type: 'general.pagination.blog_posts',
+            paginate: paginate
+          -%}
+        {%- else -%}
+          {%- render 'pagination' with
+            type: 'general.pagination.blog_posts',
+            display_paginate_item_count_only: true,
+            paginate: paginate
+          -%}
+        {%- endif -%}
+      </div>
+
+    </div>
+  </div>
+{% endpaginate %}
+
+{% schema %}
+  {
+    "name": "Blog pages",
+    "tag": "section",
+    "settings": [
+      {
+        "id": "show_rss",
+        "type": "checkbox",
+        "label": "t:sections.main_blog.settings.show_rss.label",
+        "default": true
+      },
+      {
+        "type": "range",
+        "id": "articles_per_row",
+        "label": "t:sections.main_blog.settings.articles_per_row.label",
+        "min": 2,
+        "max": 4,
+        "step": 1,
+        "default": 3
+      },
+      {
+        "type": "header",
+        "content": "t:sections.main_blog.settings.header.content"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_image",
+        "label": "t:sections.main_blog.settings.show_image.label",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_title",
+        "label": "t:sections.main_blog.settings.show_title.label",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_excerpt",
+        "label": "t:sections.main_blog.settings.show_excerpt.label",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_date",
+        "label": "t:sections.main_blog.settings.show_date.label",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "aspect_ratio",
+        "options": [
+          {
+            "value": "natural",
+            "label": "t:sections.main_blog.settings.image_ratio.options__1"
+          },
+          {
+            "value": "square",
+            "label": "t:sections.main_blog.settings.image_ratio.options__2"
+          },
+          {
+            "value": "landscape",
+            "label": "t:sections.main_blog.settings.image_ratio.options__3"
+          },
+          {
+            "value": "portrait",
+            "label": "t:sections.main_blog.settings.image_ratio.options__4"
+          }
+        ],
+        "default": "square",
+        "label": "t:sections.main_blog.settings.image_ratio.label"
+      }
+    ]
+  }
+{% endschema %}

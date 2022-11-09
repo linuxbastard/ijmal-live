@@ -1,0 +1,318 @@
+{%- liquid
+  assign file_extension = 'png'
+
+  assign on_sale = false
+  if product.compare_at_price > product.price
+    assign on_sale = true
+  endif
+
+  assign variant_popup_page = pages[settings.variant_popup_page]
+
+  assign variant_popup_content_exists = false
+  assign variant_popup_option = ''
+
+  if block.settings.variant_popup_option != blank and block.settings.variant_popup_text != blank and variant_popup_page.content != blank
+    assign variant_popup_content_exists = true
+    assign variant_popup_option = block.settings.variant_popup_option | downcase
+  endif
+
+  assign swatch_options = settings.swatch_options | downcase | split: ', '
+-%}
+
+<div class="product__details">
+  {% form 'product', product, data-product-form: '', data-product-handle: product.handle %}
+
+    {%- for block in blocks -%}
+      {%- case block.type -%}
+        {%- when '@app' -%}
+          <div class="product__block product__block-small">
+            {% render block %}
+          </div>
+
+        {%- when 'custom_liquid' -%}
+          {%- unless block.settings.custom_liquid == blank -%}
+            <div class="product__block product__block-small ">
+              {{ block.settings.custom_liquid }}
+            </div>
+          {%- endunless -%}
+
+        {%- when 'price' -%}
+          <div class="product__block product__block-small" data-price-wrapper>
+            <span data-product-price class="type-body-regular meta{% if on_sale %} sale{% endif %}">
+              {{ current_variant.price | money }}
+            </span>
+
+              <span class="visually-hidden" data-compare-text>{{ 'products.product.regular_price' | t }}</span>
+              <s class="meta" data-compare-price>
+                {% if on_sale %}
+                  {{ current_variant.compare_at_price | money }}
+                {% endif %}
+              </s>
+
+            {% render 'unit-price', item: current_variant %}
+          </div>
+
+        {%- when 'title' -%}
+          <div class="product__block product__block-small">
+            <h1 class="product__title type-heading-1 ma0">
+              {{ product.title }}
+            </h1>
+          </div>
+
+        {%- when 'vendor' -%}
+          <div class="product__block product__block-small">
+            <div class="product__vendor ma0">{{ product.vendor | link_to_vendor: class: "accent-link" }}</div>
+          </div>
+
+        {%- when 'border' -%}
+          <div class="product__block">
+            <div class="product__border"></div>
+          </div>
+
+        {%- when 'sku' -%}
+          {% if current_variant.sku != blank %}
+            <div class="product__sku product__block product__block-small" data-product-sku>
+              {{ 'products.product.sku_with_value' | t: value: current_variant.sku }}
+            </div>
+          {% endif %}
+
+        {%- when 'quantity_selector' -%}
+          {% comment %}
+            Any input with `name="quantity"` will be picked up by ProductForm and
+            registered as a quantity input. If a quantity input is not included, a
+            default quantity of 1 is assumed.
+          {% endcomment %}
+          <div class="product__block">
+            <label for="Quantity" class="dib mb2">{{ 'products.product.quantity' | t }}</label>
+            <input type="number" id="Quantity" name="quantity" value="1" min="1" class="input-reset input w-100">
+          </div>
+
+        {%- when 'variant_picker' -%}
+          {% unless product.has_only_default_variant %}
+            {%- liquid
+              assign variant_popup_page = pages[block.settings.variant_popup_page]
+              assign variant_popup_content_exists = false
+              assign variant_popup_option = ''
+
+              if block.settings.variant_popup_option != blank and block.settings.variant_popup_text != blank and variant_popup_page.content != blank
+                assign variant_popup_content_exists = true
+                assign variant_popup_option = block.settings.variant_popup_option | downcase
+              endif
+            -%}
+            {% for option in product.options_with_values %}
+              {%- assign option_name = option.name | downcase -%}
+
+              <div class="product__block product__variant-select mb3">
+
+                  <label for="Option{{ option.position }}" class="dib mb2">
+                    {{ option.name }}
+                  </label>
+
+                  {% if block.settings.show_swatches %}
+                    {% if swatch_options contains option_name %}
+                      <span class="product__color-swatch-value" data-swatch-selected>{{ option.selected_value }}</span>
+
+                      <div class="product__color-swatches" data-product-swatches data-product-option="Option{{ option.position }}">
+                        {% for value in option.values %}
+                          <a
+                            href="#"
+                            data-label="{{ value }}"
+                            data-product-swatch
+                            data-product-swatch-option="{{ value | handleize }}--{{ forloop.index0 }}"
+                            class="product__color-swatch {% if option.selected_value == value %}selected{% endif %}"
+                            style="
+                              background-image: url({{ value | handle | append: '.' | append: file_extension | file_url }});
+                              background-color: {{ value | handle }};
+                            "
+                            tabindex="0"
+                            aria-label="{{ option_name | capitalize | append: ': ' | append: value }}"
+                          >
+                          </a>
+                        {% endfor %}
+                      </div>
+                    {% endif %}
+                  {% endif %}
+
+                  {% comment %}
+                    All inputs that have `name=options[Name]` will be picked up by
+                    ProductForm, registered as an option input, and made available
+                    at ProductForm.optionsInputs
+                  {% endcomment %}
+                  <div class="select-wrapper">
+                    <select
+                      id="Option{{ option.position }}"
+                      name="options[{{ option.name | escape }}]"
+                      class="input-reset input w-100"
+                    >
+                      {% for value in option.values %}
+                        <option
+                          data-value-handle="{{ value | handleize }}--{{ forloop.index0 }}"
+                          value="{{ value | escape }}"
+                          {% if option.selected_value == value %}selected="selected"{% endif %}>
+                            {{ value }}
+                        </option>
+                      {% endfor %}
+                    </select>
+
+                    {% if variant_popup_content_exists and option_name == variant_popup_option %}
+                      <a
+                        href="#"
+                        class="variant-popup__trigger accent-link type-body-small"
+                        data-variant-popup-trigger
+                        data-modal-content-id="modal-{{ block.settings.variant_popup_page }}"
+                      >
+                        {{ block.settings.variant_popup_text }}
+                      </a>
+                      <div id="modal-{{ block.settings.variant_popup_page }}" class="variant-popup__content modal-content">
+                        <h2 class="type-heading-1 mt0 mb3">{{ variant_popup_page.title }}</h2>
+                        {{ variant_popup_page.content }}
+                      </div>
+                    {% endif %}
+                  </div>
+              </div>
+            {% endfor %}
+          {% endunless %}
+
+        {%- when 'buy_buttons' -%}
+
+          <div class="product__block">
+
+            {% comment %}
+              In order for this form to submit, it needs to contain an input with name="id".
+              ProductForm() will automatically create this input (or make sure it has the
+              right value set if it already exists) on form submit based on the
+              currently selected variant. However, if JS is disabled we need a fallback.
+
+              Include a single <select> element which allows users to select all variants
+              as a fallback and present it only when JS is disabled. In addition,
+              make sure you hide the option inputs declared above, like we do with the
+              `.js-enabled` class which only shows its contents when JS is enabled.
+            {% endcomment %}
+            <select
+              name="id"
+              id="variant-selector"
+              class="input-reset input w-100"
+              data-variant-select
+            >
+              {% for variant in product.variants %}
+                <option
+                  {% if variant == current_variant %}selected="selected"{% endif %}
+                  {% unless variant.available %}disabled="disabled"{% endunless %}
+                  value="{{ variant.id }}">
+                    {{ variant.title }}
+                </option>
+              {% endfor %}
+            </select>
+
+            <div class="product__quantity-error hidden" data-quantity-error>
+              {{ 'products.product.quantity_error' | t }}
+            </div>
+
+            <button
+              type="submit"
+              class="bttn bttn--full mb2 {% if block.settings.show_dynamic_checkout %}bttn--secondary{% endif %} "
+              data-add-button
+              data-lang-available="{{ 'products.product.add_to_cart' | t }}"
+              data-lang-sold-out="{{ 'products.product.sold_out' | t }}"
+              {% unless current_variant.available %}disabled="disabled"{% endunless %}
+            >
+
+              <span class="bttn__spinner">
+                {% render 'icon-spinner' %}
+              </span>
+
+              <span data-add-button-text>
+                {% if current_variant.available %}
+                  {{ 'products.product.add_to_cart' | t }}
+                {% else %}
+                  {{ 'products.product.sold_out' | t }}
+                {% endif %}
+              </span>
+
+            </button>
+
+            {% comment %}
+              https://help.shopify.com/en/themes/customization/store/dynamic-checkout-buttons
+            {% endcomment %}
+            {% if block.settings.show_dynamic_checkout %}
+              {{ form | payment_button }}
+            {% endif %}
+
+            {%- if block.settings.show_dynamic_policies and shop.taxes_included or shop.shipping_policy.body != blank -%}
+              <div class="product-form__policies type-body-regular rte" data-product-policies>
+                {%- if shop.taxes_included -%}
+                  {{ 'products.product.include_taxes' | t }}
+                {%- endif -%}
+                {%- if shop.shipping_policy.body != blank -%}
+                  {{ 'products.product.shipping_policy_html' | t: link: shop.shipping_policy.url }}
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+
+            {% comment %} Shop Pay {% endcomment %}
+            <div class="product-form__shop-pay type-body-small">
+              {{- form | payment_terms -}}
+            </div>
+
+            {% comment %} Surface pick-up {% endcomment %}
+            <div data-store-availability-container data-base-url="{{ shop.url }}{{ routes.root_url }}"></div>
+          </div>
+
+        {%- when 'description' -%}
+          {%- if product.description != blank -%}
+            <div class="product__block product__description type-body-regular rte">
+              {{ product.description }}
+            </div>
+          {%- endif -%}
+
+        {%- when 'share' -%}
+          <div class="product__block">
+            {% render 'social-sharing', share_title: product.title, share_permalink: product.url, share_image: product %}
+          </div>
+
+        {%- when 'text' -%}
+          <div class="product__block type-body-regular rte">
+            {{ block.settings.text }}
+          </div>
+
+        {%- when 'inventory_counter' -%}
+          <div class="product__block">
+            {%- render 'inventory-counter' with
+              product: product,
+              inventory_max: block.settings.inventory_max,
+              low_inventory_threshold: block.settings.low_inventory_threshold,
+              current_variant: current_variant,
+            -%}
+          </div>
+
+        {%- when 'accordion' -%}
+            {%- assign prevIndex = forloop.index0 | minus: 1 -%}
+            {%- assign nextIndex = forloop.index0 | plus: 1 -%}
+
+            {%- if forloop.first or section.blocks[prevIndex].type != 'accordion' -%}
+              <div class="product__block product__accordion type-body-regular rte">
+                <div class="accordion">
+            {%- endif -%}
+              <div
+                class="accordion__group"
+                data-index="{{ forloop.index0 }}"
+                data-open="{% if block.settings.style == 'open' %}true{% else %}false{% endif %}"
+                {{ block.shopify_attributes }}
+              >
+                <a class="accordion__label" href="#">
+                  {{ block.settings.heading }}
+                </a>
+                <div class="accordion__text">
+                  {{ block.settings.content }}
+                </div>
+              </div>
+
+              {% if forloop.last or section.blocks[nextIndex].type != 'accordion' %}
+                  </div>
+                </div>
+            {% endif %}
+
+      {%- endcase -%}
+    {%- endfor -%}
+  {% endform %}
+</div>

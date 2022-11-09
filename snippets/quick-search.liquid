@@ -1,0 +1,37 @@
+<div class="quick-search">
+  <button type="button" class="button-blank color-inherit no-ajax quick-search__trigger" aria-label="{{ 'general.accessibility.open_search' | t }}">
+    {% render 'icon' with icon: 'search' %}
+  </button>
+
+  <div class="search hidden">
+    <div class="search__container">
+      <form action="{{ routes.search_url }}" class="search__input-container" autocomplete="off">
+        <input
+          autofocus
+          type="search"
+          name="q"
+          class="search__input input"
+          placeholder="{{ 'search.placeholder' | t }}"
+        >
+        <input type="hidden" name="options[prefix]" value="last">
+
+        <div class="search__input-actions">
+          <button type="button" class="search__input-clear button-blank accent-link">{{ 'search.clear' | t }}</button>
+          <button type="button" class="search__input-close accent-link button-blank" aria-label="{{ 'general.accessibility.close_modal' | t }}">
+            {% render 'icon' with icon: 'close' %}
+          </button>
+          <button
+            type="submit"
+            class="search__submit-button bttn bttn--small"
+          >
+            {{ 'search.submit' | t }}
+          </button>
+        </div>
+
+        <div class="search__results"></div>
+      </form>
+    </div>
+  </div>
+
+  <div class="search__overlay"></div>
+</div>

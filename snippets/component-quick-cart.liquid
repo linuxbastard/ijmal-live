@@ -1,0 +1,31 @@
+<div class="quick-cart" data-quick-cart>
+  <div class="quick-cart__overlay js-overlay"></div>
+
+  <div class="quick-cart__popup">
+    <ul class="quick-cart__tabs">
+      <li>
+        <button type="button" class="button-blank js-tab-link-cart">{{ 'layout.cart.title' | t }}</button>
+      </li>
+      <li>
+        <button type="button" class="button-blank js-tab-link-recent">{{ 'general.products.recently_viewed' | t }}</button>
+      </li>
+      <li>
+        <button type="button" class="button-blank js-tab-link-quick-shop quick-cart__quick-shop-product">{{ 'general.products.quick_cart' | t }}</button>
+      </li>
+      <li class="quick-cart__close">
+        <button type="button" class="button-blank js-close" aria-label="{{ 'general.accessibility.close_modal' | t }}">
+          {% render 'icon-close' %}
+        </button>
+      </li>
+    </ul>
+
+
+    <div class='quick-cart__items js-items'>
+      <div class='abs fill'>
+        {% render 'loader' %}
+      </div>
+    </div>
+
+    <div class="js-footer"></div>
+  </div>
+</div>

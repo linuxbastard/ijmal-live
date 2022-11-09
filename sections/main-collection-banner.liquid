@@ -1,0 +1,63 @@
+<header role="banner" class="collection section">
+  <div class="section--standard flex flex-wrap">
+    <div
+      class="
+        collection__details
+        {% if section.settings.show_collection_image and collection.image == blank %}collection__details--no-image{% endif %}
+      "
+    >
+      <p class="type-heading-meta meta mt0 mb3">
+        {{ 'collections.general.name' | t }}
+      </p>
+      <h1 class="type-heading-1 mt3 ma0">{{ collection.title }}</h1>
+      {%- if section.settings.show_collection_description and collection.description != blank -%}
+        <div class="type-body-regular mt3 rte measure">
+          {{ collection.description }}
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- if section.settings.show_collection_image and collection.image != blank -%}
+      <div class="collection__image-wrapper{% render 'aspect-ratio-modifier' with aspect_ratio: section.settings.collection_image_aspect_ratio %}">
+        {% render 'responsive-image' with
+          image: collection.image,
+          wrapper_class: "collection__image",
+          max_width: 900
+        %}
+      </div>
+    {%- endif -%}
+  </div>
+</header>
+
+{% schema %}
+  {
+    "name": "t:sections.main_collection_banner.name",
+    "class": "collection-section",
+    "settings": [
+      {
+        "id": "show_collection_image",
+        "type": "checkbox",
+        "label": "t:sections.main_collection_banner.settings.show_collection_image.label",
+        "default": false
+      },
+      {
+        "id": "collection_image_aspect_ratio",
+        "type": "select",
+        "label": "t:sections.main_collection_banner.settings.collection_image_aspect_ratio.label",
+        "options": [
+          { "label": "t:sections.main_collection_banner.settings.collection_image_aspect_ratio.options__1", "value": "natural" },
+          { "label": "t:sections.main_collection_banner.settings.collection_image_aspect_ratio.options__2", "value": "square" },
+          { "label": "t:sections.main_collection_banner.settings.collection_image_aspect_ratio.options__3", "value": "landscape" },
+          { "label": "t:sections.main_collection_banner.settings.collection_image_aspect_ratio.options__4", "value": "portrait" }
+        ],
+        "default": "natural"
+      },
+      {
+        "id": "show_collection_description",
+        "type": "checkbox",
+        "label": "t:sections.main_collection_banner.settings.show_collection_description.label",
+        "default": true
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,10 @@
+<div
+  data-section-type="recently-viewed-item"
+  data-recently-viewed-item
+>
+  {%- if product -%}
+    <div class="recently-viewed__product">
+      {% render 'product-tile', product: product %}
+    </div>
+  {%- endif -%}
+</div>

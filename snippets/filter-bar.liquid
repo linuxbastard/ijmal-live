@@ -1,0 +1,44 @@
+{%- liquid
+  assign filters_valid = false
+  if results.filters and show_filters
+    assign filters_valid = true
+  endif
+-%}
+
+<div class="filter-bar__filters">
+  {%- if filters_valid or show_sort -%}
+    <div class="filter-bar__filters-inner">
+      {%- if filters_valid -%}
+        <button type="button" class="collection__button type-body-regular" data-filter-open="__filter">
+          {{ 'filters.title' | t }}
+          {% render 'icon' with icon: 'chevron-down' %}
+        </button>
+      {%- endif -%}
+
+      {%- if show_sort -%}
+        <button type="button" class="collection__button type-body-regular" data-filter-open="__sort">
+          {{ 'filters.sort_title' | t }}
+          {% render 'icon' with icon: 'chevron-down' %}
+        </button>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  {%- if pagination == 'paginated' -%}
+    <div class="filter-bar__per-page type-body-small" data-collection-templates>
+      {%- assign views = "12,24,36" | split: ',' -%}
+      {{ 'collections.general.show' | t }}
+      {%- for num in views -%}
+        {%- assign paginate_by = paginate_by | append: "" -%}
+        <a
+          data-per-page
+          data-collection-template="{{ num }}"
+          href="#"
+          class="{% if paginate_by == num %}active{% endif %}"
+        >
+          {{- num -}}
+        </a>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+</div>

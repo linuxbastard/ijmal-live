@@ -1,0 +1,177 @@
+<div
+  data-section-id="{{ section.id }}"
+>
+  {%- for block in section.blocks -%}
+    {%- case block.type -%}
+      {%- when 'header' -%}
+
+        <div class="article__header">
+          {%- if article.image -%}
+            <div
+              class="article__heading-wrapper lazyload cover bg-container bg-center relative"
+              data-bgset="{% render 'responsive-bg-image', image: article.image %}"
+              role="img"
+              aria-label="{{ article.image.alt }}"
+            >
+
+              <div class="article__heading-content" {% if block.settings.text_color != blank %}style="color: {{ block.settings.text_color }};"{% endif %}>
+                <header role="banner" class="article__heading__text ph3 tc self-center centered-content">
+                  <h1 class="type-heading-display measure-narrow center">{{ article.title }}</h1>
+                  {%- if article.excerpt != blank -%}
+                    <div class="type-body-large measure center">{{ article.excerpt }}</div>
+                  {%- endif -%}
+                </header>
+              </div>
+
+              {%- if block.settings.overlay_color != blank -%}
+                <div class="z-1 absolute absolute--fill o-{{ block.settings.overlay_opacity }}" style="background: {{ block.settings.overlay_color }};"></div>
+              {%- endif -%}
+
+              <noscript>
+                {%- assign image_size = article.image.width | append: 'x' -%}
+                <div class="cover bg-center" style="background-image: {{ article.image | img_url: image_size }}"></div>
+              </noscript>
+            </div>
+
+          {%- else -%}
+            {%- render 'page-header' with title: article.title, hide_breadcrumbs: true -%}
+          {%- endif -%}
+        </div>
+
+      {%- when 'content' -%}
+
+        {%- comment -%}
+          In order to avoid showing "success" message when we post comments
+          with invalid format (eg. blank fields), we added logic to make sure it doesn't show.
+
+          Comment help page:
+          http://docs.shopify.com/themes/liquid-variables/comment
+        {%- endcomment -%}
+
+        <article
+          class="article__content"
+          role="article"
+          data-section-id="{{ section.id }}"
+          data-section-type="article"
+        >
+          <div class="mw-c center ph3 ph4-ns">
+            <div class="type-body-large rte centered-content mb6">
+              {{ article.content }}
+
+              <div class="article__footer">
+                <p><strong>{{ 'blogs.general.published' | t }}:</strong> {{ article.published_at | date: "%a, %b %d, %Y" }}</p>
+                {%- if article.tags.size > 0 -%}
+                  <strong>{{ 'blogs.general.categories' | t }}:</strong>
+                  <ul>
+                    {%- for tag in article.tags -%}
+                      <li><a href="{{ blog.url }}/tagged/{{ tag.handle }}">{{ tag }}</a></li>
+                    {%- endfor -%}
+                  </ul>
+                {%- endif -%}
+              </div>
+
+              <div class="article__pagination">
+                {%- if blog.previous_article -%}
+                  <a href="{{ blog.previous_article }}" class="article__pagination-prev">
+                    {{ 'blogs.pagination.previous' | t }}
+                  </a>
+                {%- endif -%}
+                {%- if blog.next_article %}
+                  <a href="{{ blog.next_article }}" class="article__pagination-next">
+                    {{ 'blogs.pagination.next' | t }}
+                  </a>
+                {%- endif -%}
+              </div>
+
+              {% render 'comments' %}
+
+            </div>
+          </div>
+        </article>
+
+    {%- endcase -%}
+  {%- endfor -%}
+</div>
+
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "articleBody": "{{ article.content | strip_html }}",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "{{ shop.url }}{{ page.url }}"
+  },
+  "headline": "{{ article.title }}",
+  {% if article.excerpt != blank %}
+    "description": "{{ article.excerpt | strip_html }}",
+  {% endif %}
+  {% if article.image %}
+    {% assign image_size = article.image.width | append: 'x' %}
+    "image": [
+      "https:{{ article | img_url: image_size }}"
+    ],
+  {% endif %}
+  "datePublished": "{{ article.published_at | date: '%Y-%m-%dT%H:%M:%SZ' }}",
+  "dateCreated": "{{ article.created_at | date: '%Y-%m-%dT%H:%M:%SZ' }}",
+  "author": {
+    "@type": "Person",
+    "name": "{{ article.author }}"
+  },
+  "publisher": {
+    "@type": "Organization",
+    {% if article.image %}
+      {% assign image_size = article.image.width | append: 'x' %}
+      "logo": {
+        "@type": "ImageObject",
+        "height": "{{ article.image.height }}",
+        "url": "https:{{ article.image | img_url: image_size }}",
+        "width": "{{ article.image.width }}"
+      },
+    {% endif %}
+    "name": "{{ shop.name }}"
+  }
+}
+</script>
+
+{% schema %}
+  {
+    "name": "t:sections.main_article.name",
+    "tag": "section",
+    "blocks": [
+      {
+        "type": "header",
+        "name": "t:sections.main_article.blocks.header.name",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "range",
+            "id": "overlay_opacity",
+            "label": "t:sections.main_article.blocks.header.settings.overlay_opacity.label",
+            "min": 0,
+            "max": 100,
+            "step": 10,
+            "default": 30,
+            "unit": "%"
+          },
+          {
+            "type": "color",
+            "id": "overlay_color",
+            "label": "t:sections.main_article.blocks.header.settings.overlay_color.label"
+          },
+          {
+            "type": "color",
+            "id": "text_color",
+            "label": "t:sections.main_article.blocks.header.settings.text_color.label"
+          }
+        ]
+      },
+      {
+        "type": "content",
+        "name": "Content",
+        "limit": 1
+      }
+    ]
+  }
+{% endschema %}

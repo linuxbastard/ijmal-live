@@ -1,0 +1,15 @@
+<div class="page-header">
+  <div class="centered-content">
+    {% if hide_breadcrumbs != true %}
+      <p class="page-header__crumbs type-heading-meta">
+        {{ 'general.meta.home' | t }}
+        /
+        {{ page.title }}
+      </p>
+    {% endif %}
+    <h1 class="page-header__title type-heading-display measure-narrow">{{ title }}</h1>
+    {% if subheading %}
+      <h2 class="page-header__subheading type-body-extra-large">{{ subheading }}</h2>
+    {% endif %}
+  </div>
+</div>

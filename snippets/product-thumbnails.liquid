@@ -1,0 +1,32 @@
+{% if product.media.size > 1 %}
+  <div class="product_thumbnail-list" data-product-thumbnails>
+    {% for media in product.media %}
+      <div class="product_thumbnail">
+        <button
+          type="button"
+          class="product_thumbnail__link"
+          data-thumbnail-id="{{ media.id }}"
+          data-product-single-thumbnail
+          aria-label="{{ 'general.accessibility.image_thumbail' | t: number: forloop.index }}"
+        >
+          <img class="product-single__thumbnail-image" src="{{ media.preview_image.src | img_url: '200x200' }}" alt="{{ image.alt | escape }}">
+
+          {% case media.media_type %}
+            {% when 'video' %}
+              <div class="product__thumbnail-badge">
+                {% render 'icon-play-badge' %}
+              </div>
+            {% when 'external_video' %}
+              <div class="product__thumbnail-badge">
+                {% render 'icon-play-badge' %}
+              </div>
+            {% when 'model' %}
+              <div class="product__thumbnail-badge">
+                {% render 'icon-3d-badge' %}
+              </div>
+          {% endcase %}
+        </button>
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}

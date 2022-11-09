@@ -1,0 +1,20 @@
+<div class="store-availability-flyout" data-store-availability-drawer>
+  <div class="store-availability-flyout__overlay" data-overlay></div>
+  <div class="drawer store-availability-flyout__drawer">
+    <div class="store-availability-flyout__inner">
+      <a href="#" class="store-availability-flyout__close" data-store-availability-close>
+        {% render 'icon' with icon: 'close' %}
+      </a>
+      <div class="store-availability-flyout__header">
+        <div class="store-availability-flyout__product-info">
+          <h4 class="store-availability-flyout__store-list-product-title type-body-regular mt0 mb0" data-store-availability-product-title>
+            {{ 'store_availability.general.availability' | t }}
+          </h4>
+        </div>
+      </div>
+      <div class="store-availbility-flyout__product" data-store-availability-product></div>
+
+      <div class="store-availbility-flyout__content" data-store-list-container></div>
+    </div>
+  </div>
+</div>

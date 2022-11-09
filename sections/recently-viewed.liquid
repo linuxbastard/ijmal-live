@@ -1,0 +1,105 @@
+<div
+  data-section-id="{{ section.id }}"
+  data-section-type="recently-viewed"
+  data-image-aspect-ratio="{{ section.settings.aspect_ratio }}"
+  data-product-count = {{ section.settings.per_row | times: section.settings.rows }}
+  class="recently-viewed section"
+>
+  <div class="recently-viewed__wrapper recently-viewed__wrapper--{{ section.settings.alignment }} {% render 'section-style' with outlined: section.settings.outline %}">
+
+    <div class="recently-viewed__side">
+      <h2 class="type-heading-1">{{ section.settings.title }}</h2>
+    </div>
+
+    <div class="recently-viewed__products" data-slider></div>
+
+    <div class="recently-view__navigation" data-navigation></div>
+  </div>
+</div>
+
+<style>
+  #shopify-section-{{section.id}} .recently-viewed__product {
+    width: calc(100%/{{ section.settings.per_row }});
+  }
+</style>
+
+
+{% schema %}
+  {
+    "name": "t:sections.recently_viewed.name",
+    "tag": "section",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "t:sections.recently_viewed.settings.paragraph.content"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "t:sections.recently_viewed.settings.title.label",
+        "default": "Recently Viewed"
+      },
+      {
+        "type": "select",
+        "id": "alignment",
+        "label": "t:sections.recently_viewed.settings.alignment.label",
+        "options": [
+          { "value": "left", "label": "t:sections.recently_viewed.settings.alignment.options__1" },
+          { "value": "above", "label": "t:sections.recently_viewed.settings.alignment.options__2" },
+          { "value": "right", "label": "t:sections.recently_viewed.settings.alignment.options__3" }
+        ]
+      },
+      {
+        "type": "range",
+        "id": "rows",
+        "label": "t:sections.recently_viewed.settings.rows.label",
+        "min": 1,
+        "max": 4,
+        "step": 1,
+        "default": 1
+      },
+      {
+        "type": "range",
+        "id": "per_row",
+        "label": "t:sections.recently_viewed.settings.per_row.label",
+        "min": 2,
+        "max": 4,
+        "step": 1,
+        "default": 3
+      },
+      {
+        "id": "aspect_ratio",
+        "type": "select",
+        "label": "t:sections.recently_viewed.settings.aspect_ratio.label",
+        "options": [
+          { "label": "t:sections.recently_viewed.settings.aspect_ratio.options__1", "value": "natural" },
+          { "label": "t:sections.recently_viewed.settings.aspect_ratio.options__2", "value": "square" },
+          { "label": "t:sections.recently_viewed.settings.aspect_ratio.options__3", "value": "landscape" },
+          { "label": "t:sections.recently_viewed.settings.aspect_ratio.options__4", "value": "portrait" }
+        ],
+        "default": "square"
+      },
+      {
+        "type": "header",
+        "content": "t:sections.recently_viewed.settings.style__header.content"
+      },
+      {
+        "type": "checkbox",
+        "id": "outline",
+        "label": "t:sections.recently_viewed.settings.outline.label",
+        "default": false
+      }
+    ],
+    "presets": [
+      {
+        "name": "t:sections.recently_viewed.presets.name"
+      }
+    ],
+    "templates": [
+      "product",
+      "collection",
+      "article",
+      "blog"
+    ]
+  }
+{% endschema %}

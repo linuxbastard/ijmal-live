@@ -1,0 +1,196 @@
+{%- liquid
+  assign filters_active = false
+
+  if section.settings.enable_filtering or section.settings.enable_sorting
+    assign filters_active = true
+  endif
+-%}
+
+<div
+  class="search-template"
+  data-section-id="{{ section.id }}"
+  data-section-type="search"
+>
+  <div class="search-template__heading">
+    <h1 class="type-heading-display">
+      {% if search.performed %}
+        <span class="visually-hidden">{{ 'search.heading' | t: count: search.results_count }}:</span>
+          {{ 'search.results_with_count' | t: terms: search.terms, count: search.results_count }}
+      {% else %}
+        {{ 'search.title' | t }}
+      {% endif %}
+    </h1>
+
+    <form action="{{ routes.search_url }}" method="get" role="search">
+      <label for="Search" class="label-hidden">
+        {{ 'search.placeholder' | t }}
+      </label>
+      <input
+        type="search"
+        class="input"
+        name="q"
+        id="Search"
+        value="{{ search.terms | escape }}"
+        placeholder="{{ 'search.placeholder' | t }}"
+      >
+      <input type="hidden" name="options[prefix]" value="last">
+      <button
+        type="submit"
+        class="search-template__submit-button bttn bttn--small"
+      >
+        {{ 'search.submit' | t }}
+      </button>
+    </form>
+  </div>
+
+  {% if search.performed %}
+
+    <div class="search-template__results-container" data-partial>
+      <div class="search-template__loading" data-loading>
+        {% render 'loader' %}
+      </div>
+
+      {%- if filters_active -%}
+        <div class="search-template__filters" data-filter-bar>
+
+          {%- if search.results_count != 0 -%}
+            {%- liquid
+              assign show_filters = section.settings.enable_filtering
+
+              if search.results_count > 1000
+                assign show_filters = false
+              endif
+            -%}
+
+            {% render 'filter-bar' with
+              results: search,
+              show_sort: section.settings.enable_sorting,
+              show_filters: show_filters
+            %}
+          {%- endif -%}
+
+          <div class="search-template__active-filters-container">
+            {%- render 'active-filters' with results: search -%}
+          </div>
+        </div>
+      {%- endif -%}
+
+      {% if search.results_count == 0 %}
+        <p class="search-template__no-results">{{ 'search.no_results' | t }}</p>
+      {% else %}
+        {% paginate search.results by 10 %}
+          <h2 class="visually-hidden">{{ 'search.heading' | t: count: search.results_count }}</h2>
+          <ul class="search-template__results">
+            {% for item in search.results %}
+              <li class="search-template__item">
+                <div class="search-template__image">
+                  <a href="{{ item.url | within: collection }}" aria-label="{{ item.title }}">
+                    {% assign featured_media = item.featured_media.preview_image | default: item.featured_image %}
+                    {% if item.object_type == 'product' %}
+                      {% if featured_media != blank %}
+                        {{ featured_media | img_url: '240x240' | img_tag }}
+                      {% else %}
+                        {{ 'product-1' | placeholder_svg_tag }}
+                      {% endif %}
+                    {% else %}
+                      {% assign featured_media = item.image %}
+                      {% if featured_media %}
+                        {{ featured_media | img_url: '240x240' | img_tag }}
+                      {% else %}
+                        {% render 'icon-article-placeholder' %}
+                      {% endif %}
+                    {% endif %}
+                  </a>
+                </div>
+                {% if item.object_type == 'product' %}
+                  <div>
+                    <h3 class="type-heading-2 mb2">
+                      <a href="{{ item.url | within: collection }}">
+                        {{ item.title }}
+                      </a>
+                    </h3>
+                    {% if item.compare_at_price > item.price %}
+                      {% if item.price_varies %}
+                        {% assign sale_price = item.price | money %}
+                        {{ 'products.product.on_sale_from_html' | t: price: sale_price }}
+                      {% else %}
+                        {{ 'products.product.on_sale' | t }}
+                        <span>{{ item.price | money }}</span>
+                      {% endif %}
+                      <span class="visually-hidden">{{ 'products.product.regular_price' | t }}</span>
+                      <s>{{ item.compare_at_price | money }}</s>
+                    {% else %}
+                      {% if item.price_varies %}
+                        {% assign price = item.price | money %}
+                        <span>{{ 'products.product.from_text_html' | t: price: price }}</span>
+                      {% else %}
+                        <span>{{ item.price | money }}</span>
+                      {% endif %}
+                    {% endif %}
+                    {% unless item.available %}
+                      {{ 'products.product.sold_out' | t }}
+                    {% endunless %}
+
+                    {% assign selected_product  = item.selected_or_first_available_variant %}
+
+                    {% render 'unit-price', item: selected_product %}
+                  </div>
+                {% else %}
+                  <div>
+                    <h3 class="type-heading-2 mb2">
+                      <a href="{{ item.url | within: collection }}">
+                        {{ item.title }}
+                      </a>
+                    </h3>
+                    <p class="type-body-regular">{{ item.content | strip_html | truncatewords: 50 }}</p>
+                  </div>
+                {% endif %}
+              </li>
+            {% endfor %}
+          </ul>
+
+          {% if paginate.pages > 1 %}
+            <div class="search-template__pagination">
+              <hr class="mt0 mb3 b--solid b--default bb" style="border-top: none;" />
+              {% render 'pagination' with
+                type: 'general.pagination.results',
+                paginate: paginate
+              %}
+            </div>
+          {% endif %}
+        {% endpaginate %}
+
+      {% endif %}
+    {% endif %}
+  </div>
+
+
+  {% render 'filter-flyout' with
+    results: search,
+    show_sort: section.settings.enable_sorting,
+    show_filters: section.settings.enable_filtering,
+  %}
+
+</div>
+
+{% schema %}
+  {
+    "name": "t:sections.main_search.name",
+    "tag": "section",
+    "settings": [
+      {
+        "id": "enable_filtering",
+        "type": "checkbox",
+        "label": "t:sections.main_search.settings.enable_filtering.label",
+        "info": "t:sections.main_search.settings.enable_filtering.info",
+        "default": false
+      },
+      {
+        "id": "enable_sorting",
+        "type": "checkbox",
+        "label": "t:sections.main_search.settings.enable_sorting.label",
+        "default": false
+      }
+    ]
+  }
+{% endschema %}

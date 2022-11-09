@@ -1,0 +1,69 @@
+{%- liquid
+  assign offset = 0
+  if product.media[0].media_type == 'image' and section.settings.skip_first_image
+    assign offset = 1
+  endif
+-%}
+
+{%- if product.images.size > 1 -%}
+  <div class="section product-image-grid">
+    <div class="product-image-grid__inner">
+      {%- for image in product.images limit: section.settings.image_amount offset: offset -%}
+        <div class="product-image-grid__item pa2">
+          <div class="product-image-grid__image-wrapper{% render 'aspect-ratio-modifier' with aspect_ratio: section.settings.aspect_ratio %}">
+            {%- render 'responsive-image' with image: image, max_width: 1200, max_height: 1200 -%}
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+  {
+    "name": "t:sections.main_product_image_grid.name",
+    "tag": "section",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "t:sections.main_product_image_grid.settings.paragraph__header.content"
+      },
+      {
+        "type": "checkbox",
+        "id": "skip_first_image",
+        "label": "t:sections.main_product_image_grid.settings.skip_first_image.label",
+        "info": "t:sections.main_product_image_grid.settings.skip_first_image.info",
+        "default": true
+      },
+      {
+        "type": "range",
+        "id": "image_amount",
+        "min": 4,
+        "max": 10,
+        "step": 1,
+        "label": "t:sections.main_product_image_grid.settings.image_amount.label",
+        "default": 4
+      },
+      {
+        "id": "aspect_ratio",
+        "type": "select",
+        "label": "t:sections.main_product_image_grid.settings.aspect_ratio.label",
+        "options": [
+          { "label": "t:sections.main_product_image_grid.settings.aspect_ratio.options__1", "value": "natural" },
+          { "label": "t:sections.main_product_image_grid.settings.aspect_ratio.options__2", "value": "square" },
+          { "label": "t:sections.main_product_image_grid.settings.aspect_ratio.options__3", "value": "landscape" },
+          { "label": "t:sections.main_product_image_grid.settings.aspect_ratio.options__4", "value": "portrait" }
+        ],
+        "default": "square"
+      }
+    ],
+    "presets": [
+    {
+      "name": "t:sections.main_product_image_grid.presets.name"
+    }
+    ],
+    "templates": [
+      "product"
+    ]
+  }
+{% endschema %}

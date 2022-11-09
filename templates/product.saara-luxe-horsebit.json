@@ -1,0 +1,257 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "price": {
+          "type": "price",
+          "settings": {
+          }
+        },
+        "title": {
+          "type": "title",
+          "settings": {
+          }
+        },
+        "border": {
+          "type": "border",
+          "settings": {
+          }
+        },
+        "quantity_selector": {
+          "type": "quantity_selector",
+          "settings": {
+          }
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "show_swatches": true,
+            "variant_popup_option": "Size",
+            "variant_popup_text": "Size guide",
+            "variant_popup_page": ""
+          }
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true,
+            "show_dynamic_policies": true
+          }
+        },
+        "description": {
+          "type": "description",
+          "settings": {
+          }
+        },
+        "share": {
+          "type": "share",
+          "settings": {
+          }
+        }
+      },
+      "block_order": [
+        "price",
+        "title",
+        "border",
+        "quantity_selector",
+        "variant_picker",
+        "buy_buttons",
+        "description",
+        "share"
+      ],
+      "settings": {
+        "enable_video_looping": true
+      }
+    },
+    "main_product_image_grid": {
+      "type": "main-product-image-grid",
+      "disabled": true,
+      "settings": {
+        "skip_first_image": true,
+        "image_amount": 4,
+        "aspect_ratio": "square"
+      }
+    },
+    "86938f98-ebf8-4318-beaa-17e71d7b51b3": {
+      "type": "2-column-mosaic-grid",
+      "blocks": {
+        "d7fe7dc9-2918-49c1-a213-03cf260a80a3": {
+          "type": "medium_horizontal_rect",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/BANNER-DALAM-1-scaled.jpg",
+            "video_url": "",
+            "media_fit": "cover",
+            "focal_point": "center_center",
+            "title": "",
+            "subheading": "",
+            "text_max_width": 28,
+            "link_text": "",
+            "link": "",
+            "link_style": "button",
+            "text_position": "center_center",
+            "background_color": "",
+            "color_text": "#ffffff",
+            "color_text_container": "",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        },
+        "template--16600346296532__86938f98-ebf8-4318-beaa-17e71d7b51b3-1667848490ecc6582d-0": {
+          "type": "small_square",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/VARIANT-COLOURS-scaled.jpg",
+            "video_url": "",
+            "media_fit": "cover",
+            "focal_point": "center_center",
+            "title": "Stunning colors",
+            "subheading": "<p>Best color combo for business or casual look.<\/p>",
+            "text_max_width": 32,
+            "link_text": "",
+            "link": "",
+            "link_style": "button",
+            "text_position": "center_top",
+            "background_color": "",
+            "color_text": "#29344d",
+            "color_text_container": "",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        },
+        "template--16600346296532__86938f98-ebf8-4318-beaa-17e71d7b51b3-1667848490ecc6582d-2": {
+          "type": "small_square",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/Usp-1-01-scaled.jpg",
+            "video_url": "",
+            "media_fit": "cover",
+            "focal_point": "center_center",
+            "title": "Engineered Insole Technology",
+            "subheading": "<p>While embedded with insole that provide long term cushioning effect for your feet, worry no more of heel pains and backaches with this exquisite wardrobe staple.<\/p>",
+            "text_max_width": 28,
+            "link_text": "",
+            "link": "",
+            "link_style": "button",
+            "text_position": "right_bottom",
+            "background_color": "",
+            "color_text": "#ffffff",
+            "color_text_container": "",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        },
+        "fd42d086-2d2e-4f1f-b7c5-49683920f493": {
+          "type": "small_square",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/BACK-STITCHING-scaled.jpg",
+            "video_url": "",
+            "media_fit": "cover",
+            "focal_point": "center_center",
+            "title": "Rubber Outsole with Heel Height 1.5 inches",
+            "subheading": "<p>Structured with wedges style heels of slight inches, Saara Luxe outsole were innovated from natural rubber which is very nimble to ensure your free move with comfort all-day long.<\/p>",
+            "text_max_width": 28,
+            "link_text": "",
+            "link": "",
+            "link_style": "button",
+            "text_position": "center_center",
+            "background_color": "",
+            "color_text": "#ffffff",
+            "color_text_container": "",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        },
+        "7c6c5dce-ca6d-4e28-b2e1-f0dac658abbd": {
+          "type": "small_square",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/MICROFIBRE-scaled.jpg",
+            "video_url": "",
+            "media_fit": "cover",
+            "focal_point": "center_center",
+            "title": "Core Material",
+            "subheading": "<p>Saara Luxe was constructed with materials made from durable microfibre which is hard to peel off, antibacterial, anti odour, plus eco-friendly too!<\/p>",
+            "text_max_width": 28,
+            "link_text": "",
+            "link": "",
+            "link_style": "button",
+            "text_position": "center_bottom",
+            "background_color": "",
+            "color_text": "#ffffff",
+            "color_text_container": "",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        },
+        "a063bcca-cf3d-4cb0-8940-051391d97484": {
+          "type": "small_square",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/BUCKLE-IJMAL-scaled.jpg",
+            "video_url": "",
+            "media_fit": "cover",
+            "focal_point": "center_center",
+            "title": "Metallic Accent as Adornment",
+            "subheading": "<p>Gleaming horsebit buckles made up of brass metal that is embossed with ‘IJMAL’ logo top a pair of these classic wide round toes.<\/p>",
+            "text_max_width": 28,
+            "link_text": "",
+            "link": "",
+            "link_style": "button",
+            "text_position": "left_bottom",
+            "background_color": "",
+            "color_text": "#ffffff",
+            "color_text_container": "",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        },
+        "ad76c44b-272d-48f2-b7ac-370976bb2d66": {
+          "type": "small_square",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/SHOES-SHAPE-scaled.jpg",
+            "video_url": "",
+            "media_fit": "cover",
+            "focal_point": "center_center",
+            "title": "Wide Round Toe Shape",
+            "subheading": "<p>Feel the comfort as you walk in these out-and-out pieces, a perfect fit for normal to wide feet.<\/p>",
+            "text_max_width": 28,
+            "link_text": "",
+            "link": "",
+            "link_style": "button",
+            "text_position": "left_center",
+            "background_color": "",
+            "color_text": "#ffffff",
+            "color_text_container": "",
+            "overlay_color": "#000000",
+            "overlay_opacity": 30
+          }
+        }
+      },
+      "block_order": [
+        "d7fe7dc9-2918-49c1-a213-03cf260a80a3",
+        "template--16600346296532__86938f98-ebf8-4318-beaa-17e71d7b51b3-1667848490ecc6582d-0",
+        "template--16600346296532__86938f98-ebf8-4318-beaa-17e71d7b51b3-1667848490ecc6582d-2",
+        "fd42d086-2d2e-4f1f-b7c5-49683920f493",
+        "7c6c5dce-ca6d-4e28-b2e1-f0dac658abbd",
+        "a063bcca-cf3d-4cb0-8940-051391d97484",
+        "ad76c44b-272d-48f2-b7ac-370976bb2d66"
+      ],
+      "settings": {
+      }
+    },
+    "product_recommendations": {
+      "type": "product-recommendations",
+      "settings": {
+        "title": "Recommended",
+        "alignment": "left",
+        "rows": 1,
+        "per_row": 3,
+        "aspect_ratio": "square",
+        "outline": false
+      }
+    }
+  },
+  "order": [
+    "main",
+    "main_product_image_grid",
+    "86938f98-ebf8-4318-beaa-17e71d7b51b3",
+    "product_recommendations"
+  ]
+}

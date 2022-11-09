@@ -1,0 +1,287 @@
+{% liquid
+  assign product_tile_row_utility_classes = ""
+
+  case section.settings.collection_products_per_row
+    when 4
+      assign product_tile_row_utility_classes = "w-50 w-third-m w-25-l "
+    when 3
+      assign product_tile_row_utility_classes = "w-50 w-third-m w-third-l "
+    when 2
+      assign product_tile_row_utility_classes = "w-50 "
+  endcase
+
+  assign paginate_by = section.settings.per_page
+
+  assign pagination_type = section.settings.pagination
+
+  assign pageurl = content_for_header | split:'"pageurl":"' | last | split:'"' | first
+
+  if pagination_type == 'paginated'
+    if pageurl contains 'view=12'
+      assign paginate_by = '12'
+    elsif pageurl contains 'view=24'
+      assign paginate_by = '24'
+    elsif pageurl contains 'view=36'
+      assign paginate_by = '36'
+    endif
+  endif
+
+  assign class = ''
+
+  assign class = class | append: ' collection--pagination-' | append: pagination_type
+
+  if section.settings.show_filters or section.settings.show_sort
+    assign class = class | append: ' collection--has-filters'
+  endif
+
+  if section.settings.filter_style == 'sidebar'
+    assign class = class | append: ' collection--has-sidebar'
+  endif
+%}
+
+<div
+  data-section-id="{{ section.id }}"
+  data-section-type="collection"
+  class="collection{{ class }}"
+  data-pagination-type="{{ pagination_type }}"
+>
+
+  <script type="application/json" data-tags>
+    {% if collection.all_tags.size > 0 %}
+      [
+        {%- for tag in collection.all_tags -%}
+          { "label": "{{ tag | escape }}", "handle": "{{ tag | handleize }}" }
+          {%- if forloop.last == false -%}, {%- endif -%}
+        {%- endfor -%}
+      ]
+    {% else %}
+      []
+    {% endif %}
+  </script>
+
+  {% paginate collection.products by paginate_by %}
+
+    <div class="collection__content">
+      {%- if section.settings.show_sort or section.settings.show_filters -%}
+        {%- if section.settings.filter_style == 'sidebar' -%}
+          <div class="collection__sidebar" data-sidebar>
+            {% render 'collection-sidebar' with
+              show_sort: section.settings.show_sort,
+              show_filters: section.settings.show_filters,
+              pagination: pagination_type,
+              paginate_by: paginate_by
+            %}
+          </div>
+        {%- endif -%}
+      {%- endif -%}
+
+      <div class="collection__main-area" id="collection-main">
+        {% render 'filter-bar' with
+          results: collection,
+          show_sort: section.settings.show_sort,
+          show_filters: section.settings.show_filters
+          pagination: pagination_type,
+          paginate_by: paginate_by
+        %}
+
+        <div class="collection__window">
+          <div class="collection__loading" data-loading>
+            {% render 'icon-spinner' %}
+          </div>
+
+          <div id="root" class="collection__products" data-partial>
+            <div class="collection__top-row">
+              {% render 'active-filters' with results: collection %}
+            </div>
+            <div class="collection__infinite-container flex flex-wrap w-100">
+              {%- for product in collection.products -%}
+                <div class="{{ product_tile_row_utility_classes }}ph1 ph2-ns mb4{% render 'aspect-ratio-modifier' with aspect_ratio: section.settings.aspect_ratio %}">
+                  {% render 'product-tile', product: product, swatches_enabled: section.settings.show_swatches %}
+                </div>
+
+              {%- else -%}
+                {%- if collection.handle == 'all' and collection.all_vendors.size == 0 and collection.all_types.size == 0 -%}
+                  {%- for i in (1..8) -%}
+                    <div class="{{ product_tile_row_utility_classes }}ph1 ph2-ns mb4{% render 'aspect-ratio-modifier' with aspect_ratio: section.settings.aspect_ratio %}">
+                      <div>
+                        <a href="#">
+                          {% capture current %}{% cycle 1, 2, 3, 4, 5, 6 %}{% endcapture %}
+                          {{ 'product-' | append: current | placeholder_svg_tag: 'placeholder-svg placeholder-svg--small' }}
+                        </a>
+                      </div>
+
+                      <h2 class="type-body-regular mt3 mb1">
+                        <a href="#">{{ 'homepage.onboarding.product_title' | t }}</a>
+                      </h2>
+
+                      <p class="meta ma0">
+                        {{ 1999 | money }}
+                      </p>
+                    </div>
+                  {%- endfor -%}
+                {%- else -%}
+                  <div class="collection__empty w-100">
+                    <p class="db tc w-100 mv6">{{ 'collections.general.no_matches' | t }}</p>
+                  </div>
+
+                  <div class="collection__no-results w-100">
+                    <div>{{ 'collections.general.no_products' | t }}</div>
+                    <a href="{{ collection.url }}">{{ 'filters.clear' | t }}</a>
+                  </div>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+
+            {%- if pagination_type == 'paginated' -%}
+              <div class="mt0 w-100 mr1 ml1 mr2-ns ml2-ns">
+                <hr class="mt0 mb3 b--solid b--default bb" style="border-top: none;" />
+                {%- if paginate.pages > 1 -%}
+                  {% render 'pagination' with
+                    type: 'general.pagination.products',
+                    paginate: paginate
+                  %}
+                {%- else -%}
+                  {% render 'pagination' with
+                    type: 'general.pagination.products',
+                    display_paginate_item_count_only: true,
+                    paginate: paginate
+                    %}
+                {%- endif -%}
+              </div>
+            {%- else -%}
+              {%- if pagination_type == 'click' or pagination_type == 'infinite' -%}
+                <div class="mt0 w-100 mr1 ml1 mr2-ns ml2-ns">
+                <hr class="mt0 mb3 b--solid b--default bb" style="border-top: none;" />
+              {%- endif -%}
+
+              <div class="collection__infinite-trigger">
+                {% render 'pagination' with
+                  type: 'general.pagination.products',
+                  display_paginate_item_count_only: true,
+                  infinite: true,
+                  paginate: paginate
+                %}
+                {%- if paginate.next -%}
+                  <a href="{{ paginate.next.url }}" class="collection__infinite-button type-body-regular">{{ 'general.pagination.load_more' | t }}</a>
+                {%- endif -%}
+              </div>
+
+              {%- if pagination_type == 'click' or pagination_type == 'infinite' -%}
+                </div>
+              {%- endif -%}
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endpaginate %}
+
+  {% render 'filter-flyout' with
+    results: collection,
+    show_filters: section.settings.show_filters,
+    show_sort: section.settings.show_sort,
+    pagination: pagination_type,
+    paginate_by: paginate_by
+  %}
+  </div>
+
+{% schema %}
+  {
+    "name": "t:sections.main_collection_product_grid.name",
+    "tag": "section",
+    "settings": [
+      {
+        "type": "header",
+        "content": "t:sections.main_collection_product_grid.settings.filter__header.content"
+      },
+      {
+        "id": "show_filters",
+        "type": "checkbox",
+        "label": "t:sections.main_collection_product_grid.settings.show_filters.label",
+        "info": "t:sections.main_collection_product_grid.settings.show_filters.info",
+        "default": true
+      },
+      {
+        "id": "show_sort",
+        "type": "checkbox",
+        "label": "t:sections.main_collection_product_grid.settings.show_sort.label",
+        "default": true
+      },
+      {
+        "id": "filter_style",
+        "type": "select",
+        "label": "t:sections.main_collection_product_grid.settings.filter_style.label",
+        "options": [
+          { "label": "t:sections.main_collection_product_grid.settings.filter_style.options__1", "value": "sidebar" },
+          { "label": "t:sections.main_collection_product_grid.settings.filter_style.options__2", "value": "buttons" }
+        ],
+        "default": "buttons"
+      },
+      {
+        "type": "header",
+        "content": "t:sections.main_collection_product_grid.settings.collection__header.content"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_swatches",
+        "label": "t:sections.main_collection_product_grid.settings.show_swatches.label",
+        "default": false
+      },
+      {
+        "type": "paragraph",
+        "content": "t:sections.main_collection_product_grid.settings.swatches__paragraph.content"
+      },
+      {
+        "type": "range",
+        "id": "collection_products_per_row",
+        "label": "t:sections.main_collection_product_grid.settings.collection_products_per_row.label",
+        "min": 2,
+        "max": 4,
+        "step": 1,
+        "default": 4
+      },
+      {
+        "id": "per_page",
+        "type": "range",
+        "label": "t:sections.main_collection_product_grid.settings.per_page.label",
+        "default": 12,
+        "min": 12,
+        "max": 36,
+        "step": 12
+      },
+      {
+        "id": "aspect_ratio",
+        "type": "select",
+        "label": "t:sections.main_collection_product_grid.settings.aspect_ratio.label",
+        "options": [
+          { "label": "t:sections.main_collection_product_grid.settings.aspect_ratio.options__1", "value": "natural" },
+          { "label": "t:sections.main_collection_product_grid.settings.aspect_ratio.options__2", "value": "square" },
+          { "label": "t:sections.main_collection_product_grid.settings.aspect_ratio.options__3", "value": "landscape" },
+          { "label": "t:sections.main_collection_product_grid.settings.aspect_ratio.options__4", "value": "portrait" }
+        ],
+        "default": "natural"
+      },
+      {
+        "type": "select",
+        "id": "pagination",
+        "label": "t:sections.main_collection_product_grid.settings.pagination.label",
+        "default": "paginated",
+        "options": [
+          {
+            "value": "infinite",
+            "label": "t:sections.main_collection_product_grid.settings.pagination.options__1"
+          },
+          {
+            "value": "click",
+            "label": "t:sections.main_collection_product_grid.settings.pagination.options__2"
+          },
+          {
+            "value": "paginated",
+            "label": "t:sections.main_collection_product_grid.settings.pagination.options__3"
+          }
+        ],
+        "info": "t:sections.main_collection_product_grid.settings.pagination.info"
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,121 @@
+{%- liquid
+  assign swatch_options = settings.swatch_options | downcase | split: ', '
+-%}
+
+{%- if results.filters or show_sort -%}
+  <form data-filter-form data-filter-form-flyout>
+
+    {%- if pagination == 'paginated' -%}
+    <label for="view-flyout" class="visually-hidden">{{ 'general.accessibility.per_page' | t }}</label>
+      <input
+        data-per-page-input
+        type="text"
+        name="view"
+        id="view-flyout"
+        class="input visually-hidden"
+        value="{{ paginate_by }}"
+        autocapitalize="words"
+      >
+    {%- endif -%}
+
+    {%- comment -%} Keep search term within form {%- endcomment -%}
+    {%- if results.terms -%}
+      <input type="hidden" name="q" value="{{ results.terms | escape }}">
+      <input name="options[prefix]" type="hidden" value="last">
+    {%- endif -%}
+
+    {%- if show_filters and results.filters -%}
+      <div class="filter-flyout drawer" data-filter-flyout="__filter" aria-hidden="true">
+        <div class="filter-flyout__heading">
+          <h4 class="type-heading-1-small mt0 mb0">{{ 'filters.title' | t }}</h4>
+          <button type="button" class="button-blank" data-close-icon aria-label="{{ 'general.accessibility.close_modal' | t }}">
+            {% render 'icon-close' %}
+          </button>
+        </div>
+
+        <div class="filter-flyout__content" data-scroll-lock-ignore>
+          {%- for filter in results.filters -%}
+            <div class="filter-flyout__group" data-group="{{ filter.label }}">
+              <h4 class="type-heading-1-small pa3 mt0 mb0">{{ filter.label }}</h4>
+
+              {%- case filter.type -%}
+                {%- when 'boolean' or 'list' -%}
+                  {%- liquid
+                    assign group_name = filter.label | handleize
+                    assign list_modifiers = ''
+
+                    if swatch_options contains group_name
+                      assign list_modifiers = list_modifiers | append: ' has-swatch'
+                      assign list_modifiers = list_modifiers | append: ' is-flex'
+                    endif
+                  -%}
+
+                  <ul class="filter__list{{ list_modifiers }}">
+                    {%- for filter_value in filter.values -%}
+                      {%- liquid
+                        if filter_value.active
+                          assign url = filter_value.url_to_remove
+                        else
+                          assign url = filter_value.url_to_add
+                        endif
+                      -%}
+
+                      {%- if swatch_options contains group_name -%}
+                        {% render 'filter-item' with
+                          type: 'swatch',
+                          forloop: forloop,
+                          filter_value: filter_value,
+                          scope: 'sidebar'
+                        %}
+                      {%- else -%}
+                        {% render 'filter-item' with
+                          type: 'checkbox',
+                          forloop: forloop,
+                          filter_value: filter_value,
+                          scope: 'sidebar'
+                        %}
+                      {%- endif -%}
+                    {%- endfor -%}
+                  </ul>
+                {%- when 'price_range' -%}
+                  {% render 'range-slider' with filter: filter, scope: 'drawer' %}
+
+              {%- endcase -%}
+            </div>
+          {%- endfor -%}
+        </div>
+
+        <div class="filter-flyout__footer">
+          <button type="button" class="bttn bttn--secondary bttn--full" data-button="clear">{{ 'filters.clear' | t }}</button>
+          <button class="bttn bttn--primary bttn--full" data-button="apply">{{ 'filters.apply' | t }}</button>
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- if show_sort -%}
+      <div class="filter-flyout drawer" data-filter-flyout="__sort" aria-hidden="true">
+        <div class="filter-flyout__heading">
+          <h4 class="type-heading-1-small mt0 mb0">{{ 'filters.sort_title' | t }}</h4>
+          <button type="button" class="button-blank" data-close-icon aria-label="{{ 'general.accessibility.close_modal' | t }}">
+            {% render 'icon-close' %}
+          </button>
+        </div>
+        <div class="filter-flyout__content" data-scroll-lock-ignore>
+          <ul class="filter__list">
+            {%- for option in results.sort_options -%}
+              {% render 'filter-sort-item' with
+                results: results,
+                option: option
+              %}
+            {%- endfor -%}
+          </ul>
+        </div>
+        <div class="filter-flyout__footer">
+          <button class="bttn bttn--primary bttn--full" data-button="apply">{{ 'filters.apply' | t }}</button>
+        </div>
+      </div>
+    {%- endif -%}
+  </form>
+{%- endif -%}
+
+<div class="filter-flyout__wash" data-filter-wash></div>

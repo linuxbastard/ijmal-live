@@ -1,0 +1,69 @@
+<div
+  data-section-type="quick-cart-recently-viewed-item"
+  data-recently-viewed-item
+>
+  {%- if product -%}
+    <div class="cart__item justify-around">
+      <div class="quick-cart__image">
+        {%- if product.featured_media == blank and product.media.size == 0 -%}
+          <div class="product-tile__placeholder">
+            <a href="{{ product.url }}" aria-label="{{ product.title }}" class="product-item__image-link">
+              <div class="placeholder-image product-item__image">
+                {{ 'product-1' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+              </div>
+            </a>
+          </div>
+        {% else %}
+          <div class="product-tile__image {% unless product.available %}o-70{% endunless %}">
+            <a href="{{ product.url | within: collection }}" aria-label="{{ product.title }}">
+              {% render 'responsive-image' with
+                image: product.featured_media.preview_image,
+                id: product.featured_media.id,
+                max_width: 700,
+                max_height: 800
+              %}
+            </a>
+          </div>
+        {% endif %}
+      </div>
+      <div class="quick-cart__product-details">
+        <h2 class="type-body-regular mt0 mb0">
+          <a href="{{ product.url | within: collection }}">{{ product.title }}</a>
+        </h2>
+        <div class="type-body-small meta ma0">
+          {% liquid
+            assign on_sale = false
+            if product.compare_at_price > product.price
+              assign on_sale = true
+            endif
+          %}
+
+          {% if on_sale %}
+
+            {% if product.price_varies %}
+              {%- assign sale_price = product.price | money -%}
+              {{ 'products.product.on_sale_from_html' | t: price: sale_price }}
+            {% else %}
+              <span class="sale">{{ product.price | money }}</span>
+            {% endif %}
+
+            <span class="visually-hidden">{{ 'products.product.regular_price' | t }}</span>
+            <s>{{ product.compare_at_price | money }}</s>
+
+          {% else %}
+
+            {% if product.price_varies %}
+              {%- assign price = product.price | money -%}
+              {{ 'products.product.from_text_html' | t: price: price }}
+            {% else %}
+              {{ product.price | money }}
+            {% endif %}
+
+          {% endif %}
+
+          {% render 'unit-price', item: product.variants.first %}
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+</div>

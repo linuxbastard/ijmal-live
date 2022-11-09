@@ -1,0 +1,142 @@
+{% render 'page-header' with title: page.title %}
+
+<div
+  class="contact contact--has-{{ section.blocks.size }}-blocks"
+  data-section-id="{{ section.id }}"
+  data-section-type="page"
+>
+  {% if section.blocks.size > 0 %}
+    <div class="contact__container section--standard">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'info' -%}
+            <div class="contact__details">
+              {%- if block.settings.heading != blank -%}
+                <h2 class="type-heading-1 mt0">{{ block.settings.heading }}</h2>
+              {%- endif -%}
+
+              {%- if block.settings.subheading != blank -%}
+                <div class="type-body-regular">
+                  {{ block.settings.subheading }}
+                </div>
+              {%- endif -%}
+
+              {%- if block.settings.show_social_icons -%}
+                <div class="contact__social">
+                  {% render 'social-icons' %}
+                </div>
+              {%- endif -%}
+            </div>
+
+          {%- when 'form' -%}
+            <div class="contact__form">
+              {%- if block.settings.show_page_content -%}
+                <div class="type-body-regular rte">{{ page.content }}</div>
+              {%- endif -%}
+
+              {% form 'contact' %}
+
+                {% if form.posted_successfully? %}
+                  <p class="form-success">
+                    {{ 'contact.form.post_success' | t }}
+                  </p>
+                {% endif %}
+
+                {{ form.errors | default_errors }}
+
+                <label for="ContactFormName">{{ 'contact.form.name' | t }}</label>
+                <input type="text"
+                  name="contact[name]"
+                  id="ContactFormName"
+                  class="input-reset input w-100"
+                  placeholder="{{ 'contact.form.name' | t }}"
+                  value="{% if form[name] %}{{ form[name] }}{% elsif customer %}{{ customer.name }}{% endif %}">
+
+                <label for="ContactFormEmail">{{ 'contact.form.email' | t }}</label>
+                <input type="email"
+                  name="contact[email]"
+                  id="ContactFormEmail"
+                  class="input-reset input w-100"
+                  placeholder="{{ 'contact.form.email' | t }}"
+                  value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+                  spellcheck="false"
+                  autocomplete="off"
+                  autocapitalize="off">
+
+                <label for="ContactFormPhone">{{ 'contact.form.phone' | t }}</label>
+                <input type="tel"
+                  name="contact[phone]"
+                  id="ContactFormPhone"
+                  class="input-reset input w-100"
+                  placeholder="{{ 'contact.form.phone' | t }}"
+                  value="{% if form[phone] %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
+                  pattern="[0-9\-]*">
+
+                <label for="ContactFormMessage">{{ 'contact.form.message' | t }}</label>
+                <textarea rows="10"
+                  name="contact[body]"
+                  id="ContactFormMessage"
+                  class="input-reset input w-100"
+                  placeholder="{{ 'contact.form.message' | t }}">
+                  {%- if form.body -%}
+                    {{- form.body -}}
+                  {%- endif -%}
+                </textarea>
+
+                <button type="submit" class="bttn">{{ 'contact.form.send' | t }}</button>
+
+              {% endform %}
+            </div>
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  {% endif %}
+
+</div>
+
+{% schema %}
+  {
+    "name": "t:sections.main_page_contact.name",
+    "tag": "section",
+    "blocks": [
+      {
+        "type": "info",
+        "name": "t:sections.main_page_contact.blocks.info.name",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "checkbox",
+            "id": "show_social_icons",
+            "label": "t:sections.main_page_contact.blocks.info.settings.show_social_icons.label",
+            "default": true
+          },
+          {
+            "type": "text",
+            "id": "heading",
+            "label": "t:sections.main_page_contact.blocks.info.settings.title.label",
+            "default": "Let's talk"
+          },
+          {
+            "type": "richtext",
+            "id": "subheading",
+            "label": "t:sections.main_page_contact.blocks.info.settings.subheading.label",
+            "default": "<p>Phone: 123-456-7890<\/p>\n<p>Email: hello@yourstore.com<\/p>"
+          }
+        ]
+      },
+      {
+        "type": "form",
+        "name": "t:sections.main_page_contact.blocks.form.name",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "checkbox",
+            "id": "show_page_content",
+            "label": "t:sections.main_page_contact.blocks.form.settings.show_page_content.label",
+            "default": true
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

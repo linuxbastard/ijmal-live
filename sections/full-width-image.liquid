@@ -1,0 +1,336 @@
+{% liquid
+  assign focal_alignment = section.settings.focal_point | replace: "_", " "
+  assign vertical_text_position = section.settings.text_position | split: "_" | first
+  assign horizontal_text_position = section.settings.text_position | split: "_" | last
+%}
+
+{%- capture vertical_position -%}
+  {%- if vertical_text_position == "top" -%}
+    justify-start
+  {%- elsif vertical_text_position == "middle" -%}
+    justify-around
+  {%- else -%}
+    justify-end
+  {%- endif -%}
+{%- endcapture -%}
+
+{%- capture horizontal_position -%}
+  {%- if horizontal_text_position == "left" -%}
+    mr-auto
+  {%- elsif horizontal_text_position == "center" -%}
+    center tc
+  {%- else -%}
+    ml-auto tr
+  {%- endif -%}
+{%- endcapture -%}
+
+<div
+  data-section-id="{{ section.id }}"
+  data-section-type="full-width-image"
+  data-parallax-scale="{{ section.settings.parallax_scale }}"
+  {% if section.settings.enable_parallax %}
+    data-enable-parallax="{{ section.settings.enable_parallax }}"
+  {% endif %}
+  class="
+    full-width-image
+    {% if section.settings.mobile_image != blank %}
+      full-width-image--has-mobile-image
+    {% endif %}
+    {% if section.settings.image != blank %}
+      full-width-image--has-desktop-image
+    {% endif %}
+  "
+  style="
+    --desktop-height: {{ section.settings.desktop_height }}vh;
+    --mobile-height: {{ section.settings.mobile_height }}vh;
+    --media-focal-point: {{ focal_alignment }};
+  "
+>
+  <div class="full-width-image__container">
+
+    {%- if section.settings.image == blank and section.settings.mobile_image == blank -%}
+      <div class="full-width-image__image-wrapper full-width-image__placeholder">
+        <div class="responsive-image__wrapper">
+          {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="z-3 absolute absolute--fill flex flex-column {{ vertical_position }}" {% if section.settings.text_color != blank %}style="color: {{  section.settings.text_color }}"{% endif %}>
+        <div class="full-width-image__inner-wrapper">
+          <div class="full-width-image__inner">
+            {%- for block in section.blocks -%}
+              {%- case block.type -%}
+                {%- when 'heading' -%}
+                  {%- if block.settings.title != blank -%}
+                    <h3
+                      class="full-width-image__heading ma0 type-heading-1 {{ horizontal_position }}"
+                      style="max-width: {{ block.settings.text_max_width }}rem;"
+                    >
+                      {{ block.settings.title }}
+                    </h3>
+                  {%- endif -%}
+
+                {%- when 'subheading' -%}
+                  {%- if block.settings.subheading != blank -%}
+                    <div
+                      class="full-width-image__subheading ma0 type-body-regular rte {{ horizontal_position }}"
+                      style="max-width: {{ block.settings.text_max_width }}rem;"
+                    >
+                      {{ block.settings.subheading }}
+                    </div>
+                  {%- endif -%}
+
+                {%- when 'button' -%}
+
+                  {%- if block.settings.link != blank and block.settings.link_text != blank -%}
+                    {%- if block.settings.link_style == 'button' -%}
+                      <a href="{{ block.settings.link }}" class="bttn {{ horizontal_position }}">{{ block.settings.link_text }}</a>
+                    {%- else -%}
+                      <a href="{{ block.settings.link }}" class="accent-link {{ horizontal_position }}">{{ block.settings.link_text }} &rarr;</a>
+                    {%- endif -%}
+                  {%- endif -%}
+
+              {%- endcase -%}
+            {%- endfor -%}
+          </div>
+        </div>
+      </div>
+    {%- endif -%}
+
+    {% if section.settings.overlay_color != blank %}
+      <div class="z-1 absolute absolute--fill o-{{ section.settings.overlay_opacity }}" style="background: {{ section.settings.overlay_color }};"></div>
+    {% endif %}
+
+    {% if section.settings.mobile_image != blank or section.settings.image != blank %}
+      <div class="full-width-image__image-wrapper">
+        {%- if section.settings.mobile_image != blank -%}
+          {% render 'responsive-image' with
+            image: section.settings.mobile_image,
+            max_width: 1000,
+            wrapper_class: "full-width-image__image full-width-image__image--mobile",
+          %}
+        {%- endif -%}
+
+        {%- if section.settings.image != blank -%}
+          {% render 'responsive-image' with
+            image: section.settings.image,
+            max_width: 3000,
+            wrapper_class: "full-width-image__image full-width-image__image--desktop",
+          %}
+        {%- endif -%}
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "t:sections.full_width_image.name",
+    "tag": "section",
+    "settings": [
+      {
+        "type": "range",
+        "id": "desktop_height",
+        "label": "t:sections.video_hero.settings.height.label",
+        "unit": "%",
+        "min": 50,
+        "max": 100,
+        "step": 5,
+        "default": 100
+      },
+      {
+        "type": "range",
+        "id": "mobile_height",
+        "label": "t:sections.video_hero.settings.mobile_height.label",
+        "unit": "%",
+        "min": 50,
+        "max": 100,
+        "step": 5,
+        "default": 100
+      },
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "t:sections.full_width_image.settings.image.label"
+      },
+      {
+        "type": "image_picker",
+        "id": "mobile_image",
+        "label": "t:sections.full_width_image.settings.mobile_image.label"
+      },
+      {
+        "id": "focal_point",
+        "type": "select",
+        "label": "t:sections.full_width_image.settings.focal_point.label",
+        "options": [
+          { "label": "t:sections.full_width_image.settings.focal_point.options__1", "value": "left_top" },
+          { "label": "t:sections.full_width_image.settings.focal_point.options__2", "value": "center_top" },
+          { "label": "t:sections.full_width_image.settings.focal_point.options__3", "value": "right_top" },
+          { "label": "t:sections.full_width_image.settings.focal_point.options__4", "value": "left_center" },
+          { "label": "t:sections.full_width_image.settings.focal_point.options__5", "value": "center_center" },
+          { "label": "t:sections.full_width_image.settings.focal_point.options__6", "value": "right_center" },
+          { "label": "t:sections.full_width_image.settings.focal_point.options__7", "value": "left_bottom" },
+          { "label": "t:sections.full_width_image.settings.focal_point.options__8", "value": "center_bottom" },
+          { "label": "t:sections.full_width_image.settings.focal_point.options__9", "value": "right_bottom" }
+        ],
+        "default": "center_center"
+      },
+      {
+        "type": "select",
+        "id": "text_position",
+        "label": "t:sections.full_width_image.settings.text_position.label",
+        "options": [
+          { "value": "top_left", "label": "t:sections.full_width_image.settings.text_position.options__1" },
+          { "value": "top_center", "label": "t:sections.full_width_image.settings.text_position.options__2" },
+          { "value": "top_right", "label": "t:sections.full_width_image.settings.text_position.options__3" },
+          { "value": "middle_left", "label": "t:sections.full_width_image.settings.text_position.options__4" },
+          { "value": "middle_center", "label": "t:sections.full_width_image.settings.text_position.options__5" },
+          { "value": "middle_right", "label": "t:sections.full_width_image.settings.text_position.options__6" },
+          { "value": "bottom_left", "label": "t:sections.full_width_image.settings.text_position.options__7" },
+          { "value": "bottom_center", "label": "t:sections.full_width_image.settings.text_position.options__8" },
+          { "value": "bottom_right", "label": "t:sections.full_width_image.settings.text_position.options__9" }
+        ],
+        "default": "middle_left"
+      },
+      {
+        "type": "header",
+        "content": "t:sections.full_width_image.settings.parallax__header.content"
+      },
+      {
+        "id": "enable_parallax",
+        "type": "checkbox",
+        "label": "t:sections.full_width_image.settings.enable_parallax.label",
+        "default": false
+      },
+      {
+        "type": "range",
+        "id": "parallax_scale",
+        "label": "t:sections.full_width_image.settings.parallax_scale.label",
+        "min": 1.1,
+        "max": 1.5,
+        "step": 0.1,
+        "default": 1.2
+      },
+      {
+        "type": "header",
+        "content": "t:sections.full_width_image.settings.color__header.content"
+      },
+      {
+        "type": "color",
+        "id": "text_color",
+        "label": "t:sections.full_width_image.settings.text_color.label",
+        "default": "#ffffff"
+      },
+      {
+        "type": "range",
+        "id": "overlay_opacity",
+        "min": 0,
+        "max": 100,
+        "step": 10,
+        "default": 50,
+        "label": "t:sections.full_width_image.settings.overlay_opacity.label"
+      },
+      {
+        "type": "color",
+        "id": "overlay_color",
+        "label": "t:sections.full_width_image.settings.overlay_color.label",
+        "default": "#707070"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "heading",
+        "name": "t:sections.full_width_image.blocks.heading.name",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "t:sections.full_width_image.blocks.heading.settings.title.label",
+            "default": "Full width image section"
+          },
+          {
+            "type": "range",
+            "id": "text_max_width",
+            "label": "t:sections.full_width_image.blocks.heading.settings.text_max_width.label",
+            "min": 20,
+            "max": 60,
+            "step": 1,
+            "default": 40
+          }
+        ]
+      },
+      {
+        "type": "subheading",
+        "name": "t:sections.full_width_image.blocks.subheading.name",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "richtext",
+            "id": "subheading",
+            "label": "t:sections.full_width_image.blocks.subheading.settings.subheading.label",
+            "default": "<p>This section can be used to organize the homepage into distinct areas, or mix and match it before or after items in a mosaic grid to give it a magazine-like feel.</p>"
+          },
+          {
+            "type": "range",
+            "id": "text_max_width",
+            "label": "t:sections.full_width_image.blocks.subheading.settings.text_max_width.label",
+            "min": 20,
+            "max": 50,
+            "step": 1,
+            "default": 40
+          }
+        ]
+      },
+      {
+        "type": "button",
+        "name": "t:sections.full_width_image.blocks.button.name",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "url",
+            "id": "link",
+            "label": "t:sections.full_width_image.blocks.button.settings.link.label"
+          },
+          {
+            "type": "text",
+            "id": "link_text",
+            "label": "t:sections.full_width_image.blocks.button.settings.link_text.label",
+            "default": "Try it out"
+          },
+          {
+            "type": "select",
+            "id": "link_style",
+            "label": "t:sections.full_width_image.blocks.button.settings.link_style.label",
+            "options": [
+              {
+                "value": "button",
+                "label": "t:sections.full_width_image.blocks.button.settings.link_style.options__1"
+              },
+              {
+                "value": "arrow_link",
+                "label": "t:sections.full_width_image.blocks.button.settings.link_style.options__2"
+              }
+            ],
+            "default": "button"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Full width image",
+        "blocks": [
+          {
+            "type": "heading"
+          },
+          {
+            "type": "subheading"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

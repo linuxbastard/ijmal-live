@@ -1,0 +1,7 @@
+{%- liquid
+  if aspect_ratio == 'natural'
+    echo ''
+  else
+    echo ' image-aspect-ratio' | append: ' image-aspect-ratio--' | append: aspect_ratio
+  endif
+-%}

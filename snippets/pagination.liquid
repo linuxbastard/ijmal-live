@@ -1,0 +1,63 @@
+{%- comment -%}Click to load pagination shows all results but does not shift the first page number{%- endcomment -%}
+{%- liquid
+  assign pagination_current_item_start = paginate.current_offset | plus: 1
+  assign pagination_current_item_end = paginate.current_page | times: paginate.page_size
+
+  if infinite
+    assign pagination_current_item_start = 1
+  endif
+
+  assign current_pagination_range = pagination_current_item_start
+
+  if pagination_current_item_end > paginate.items
+    assign pagination_current_item_end = paginate.items
+  endif
+
+  assign current_pagination_range = current_pagination_range | append: '-' | append: pagination_current_item_end
+-%}
+
+<div class="pagination">
+  <p>{{ 'general.pagination.viewing' | t: of: current_pagination_range, total: paginate.items }} {{ type | t }}</p>
+
+  {%- unless display_paginate_item_count_only -%}
+    <ul class="list ma0 pa0">
+
+      {%- if paginate.previous != blank -%}
+        <li class="pagination__item">
+          <a href="{{ paginate.previous.url }}">{{ paginate.previous.title }}</a>
+        </li>
+      {%- endif -%}
+
+      {%- for part in paginate.parts -%}
+        {%- capture li_classes -%}
+          {%- if part.title == paginate.current_page -%}
+            pagination__item pagination__item--active
+          {%- elsif part.title == "&hellip;" -%}
+            pagination__ellip
+          {%- else -%}
+            pagination__item
+          {%- endif -%}
+        {%- endcapture -%}
+
+        <li class="{{ li_classes }}">
+          {%- if part.is_link == true -%}
+            <a href="{{ part.url }}" >{{ part.title }}</a>
+          {%- else -%}
+            {%- if part.title == "&hellip;" -%}
+              <span>{{ part.title }}</span>
+            {%- else -%}
+              <span>{{ part.title }}</span>
+            {%- endif -%}
+          {%- endif -%}
+
+        </li>
+      {%- endfor -%}
+
+      {%- if paginate.next != blank -%}
+        <li class="pagination__item">
+          <a href="{{ paginate.next.url }}">{{ paginate.next.title }}</a>
+        </li>
+      {%- endif -%}
+    </ul>
+  {%- endunless -%}
+</div>

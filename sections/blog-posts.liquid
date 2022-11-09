@@ -1,0 +1,151 @@
+<div
+  data-section-id="{{ section.id }}"
+  data-section-type="blog-posts"
+  class="
+    section
+    blog-posts
+    blog-posts--columns-{{ section.settings.articles_per_row }}
+    {% if section.settings.show_date %}blog-posts--has-date{% endif %}
+  "
+>
+
+  {%- unless section.settings.title == blank -%}
+    <div class="blog-posts__heading">
+      <h1 class="ma0 type-heading-1">{{ section.settings.title }}</h1>
+    </div>
+  {%- endunless -%}
+
+  <div class="blog-posts__articles">
+    {% for block in section.blocks %}
+      {% render 'blog-posts-item' with
+        title: section.settings.title,
+        aspect_ratio: section.settings.aspect_ratio,
+        show_image: section.settings.show_image,
+        show_title: section.settings.show_title,
+        show_excerpt: section.settings.show_excerpt,
+        show_date: section.settings.show_date,
+        block: block,
+        forloop: forloop,
+      %}
+
+    {% else %}
+      {% for i in (1..section.settings.articles_per_row) %}
+        {% render 'blog-posts-item' with
+          title: section.settings.title,
+          aspect_ratio: section.settings.aspect_ratio,
+          show_image: section.settings.show_image,
+          show_title: section.settings.show_title,
+          show_excerpt: section.settings.show_excerpt,
+          show_date: section.settings.show_date
+        %}
+      {% endfor %}
+    {% endfor %}
+
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "t:sections.blog_posts.name",
+    "tag": "section",
+    "templates": ["404", "article", "blog", "cart", "collection", "list-collections", "customers/account", "customers/activate_account", "customers/addresses", "customers/login", "customers/order", "customers/register", "customers/reset_password", "gift_card", "index", "page", "product", "search"],
+    "settings": [
+      {
+        "type": "range",
+        "id": "articles_per_row",
+        "label": "t:sections.blog_posts.settings.articles_per_row.label",
+        "min": 2,
+        "max": 4,
+        "step": 1,
+        "default": 3
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "t:sections.blog_posts.settings.title.label"
+      },
+      {
+        "type": "header",
+        "content": "t:sections.blog_posts.settings.card__header.content"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_image",
+        "label": "t:sections.blog_posts.settings.show_image.label",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_title",
+        "label": "t:sections.blog_posts.settings.show_title.label",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_excerpt",
+        "label": "t:sections.blog_posts.settings.show_excerpt.label",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_date",
+        "label": "t:sections.blog_posts.settings.show_date.label",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "aspect_ratio",
+        "options": [
+          {
+            "value": "natural",
+            "label": "t:sections.blog_posts.settings.aspect_ratio.options__1"
+          },
+          {
+            "value": "square",
+            "label": "t:sections.blog_posts.settings.aspect_ratio.options__2"
+          },
+          {
+            "value": "landscape",
+            "label": "t:sections.blog_posts.settings.aspect_ratio.options__3"
+          },
+          {
+            "value": "portrait",
+            "label": "t:sections.blog_posts.settings.aspect_ratio.options__4"
+          }
+        ],
+        "default": "square",
+        "label": "t:sections.blog_posts.settings.aspect_ratio.label"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "article",
+        "name": "t:sections.blog_posts.blocks.article.name",
+        "limit": 12,
+        "settings": [
+          {
+            "type": "article",
+            "id": "article",
+            "label": "t:sections.blog_posts.blocks.article.settings.article.label"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "t:sections.blog_posts.presets.name",
+        "blocks": [
+          {
+            "type": "article"
+          },
+          {
+            "type": "article"
+          },
+          {
+            "type": "article"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
